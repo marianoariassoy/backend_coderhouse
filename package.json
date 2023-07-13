@@ -1,0 +1,11 @@
+{
+  "name": "backend_coderhouse",
+  "version": "1.0.0",
+  "description": "coderhouse",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mariano Arias",
+  "license": "ISC"
+}
