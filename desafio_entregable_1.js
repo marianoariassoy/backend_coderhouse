@@ -24,18 +24,20 @@ En caso de no coincidir ningún id, mostrar en consola un error "Not found"
 */
 
 class ProductManager {
-  static products = [];
-  static id = 100;
+  constructor() {
+    this.products = [];
+    this.id = 100;
+  }
 
   addProduct(title, description, price, thumbnail, code, stock) {
     if (!title || !description || !price || !thumbnail || !code || !stock) {
       console.error("All fields are required");
     } else {
-      if (ProductManager.products.find((product) => product.code === code)) {
+      if (this.products.find((product) => product.code === code)) {
         console.error("Code already exists");
       } else {
-        ProductManager.products.push({
-          id: ProductManager.id,
+        this.products.push({
+          id: this.id,
           title,
           description,
           price,
@@ -43,18 +45,18 @@ class ProductManager {
           code,
           stock,
         });
-        ProductManager.id++;
+        this.id++;
         console.log(`${title} added successfully`);
       }
     }
   }
 
   getProducts() {
-    console.log(ProductManager.products);
+    console.log(this.products);
   }
 
   getProductById(id) {
-    const product = ProductManager.products.find((product) => product.id === id);
+    const product = this.products.find((product) => product.id === id);
     if (product) {
       console.log("Product search");
       console.log(product);
