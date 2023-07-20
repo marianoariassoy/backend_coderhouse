@@ -8,7 +8,9 @@
   },
   "author": "Mariano Arias",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.29.4"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marianoariassoy/backend_coderhouse.git"
@@ -16,6 +18,5 @@
   "bugs": {
     "url": "https://github.com/marianoariassoy/backend_coderhouse/issues"
   },
-  "homepage": "https://github.com/marianoariassoy/backend_coderhouse#readme",
-  "devDependencies": {}
+  "homepage": "https://github.com/marianoariassoy/backend_coderhouse#readme"
 }
