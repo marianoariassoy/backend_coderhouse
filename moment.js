@@ -12,15 +12,15 @@ Utilizar los métodos diff y format de la librería moment.
 */
 
 const moment = require("moment");
-moment.locale("es");
+const format = "DD/MM/YYYY";
 const today = moment();
-const birthday = moment("25/05/1980", "D/MM/YYYY");
-const years = birthday.fromNow("years");
-const days = birthday.diff(today, "days");
+const birthday = moment("25/05/1980", format);
+const years = today.diff(birthday, "years");
+const days = today.diff(birthday, "days");
 
 console.log(`
-Hoy es ${today.format("DD/MM/YYYY")}
-Nací el ${birthday.format("DD/MM/YYYY")}
-Desde mi nacimiento han pasado ${years}.
-Desde mi nacimiento han pasado ${days * -1} días.
+Hoy es ${today.format(format)}
+Nací el ${birthday.format(format)}
+Desde mi nacimiento han pasado ${years} años.
+Desde mi nacimiento han pasado ${days} días.
 `);
