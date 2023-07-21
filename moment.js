@@ -13,6 +13,7 @@ Utilizar los métodos diff y format de la librería moment.
 
 const moment = require("moment");
 const format = "DD/MM/YYYY";
+
 const today = moment();
 const birthday = moment("25/05/1980", format);
 const years = today.diff(birthday, "years");

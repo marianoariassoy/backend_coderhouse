@@ -1,4 +1,4 @@
-const fs = require("fs/promises");
+const fs = require("node:fs");
 
 class Contenedor {
   constructor(file) {
@@ -8,89 +8,104 @@ class Contenedor {
   }
 
   save(product) {
-    this.readFile((data) => {
+    fs.readFile(this.file, "utf-8", (err, data) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
       if (data) {
         const products = JSON.parse(data);
         this.products = products;
         this.id = products[products.length - 1].id + 1;
       }
+
       this.products.push({ ...product, id: this.id });
       console.log("product id: ", this.id);
       this.id++;
-      this.updateFile();
+
+      fs.writeFile(this.file, JSON.stringify(this.products, null, 2), (err) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+      });
     });
   }
 
   getById(id) {
-    this.readFile((data) => {
+    fs.readFile(this.file, "utf-8", (err, data) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
       if (data) {
         this.products = JSON.parse(data);
       }
+
       const product = this.products.find((product) => product.id === id);
       product ? console.log(product) : console.log(null);
+
+      fs.writeFile(this.file, JSON.stringify(this.products, null, 2), (err) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+      });
     });
   }
 
   getAll() {
-    try {
-      fs.readFile(this.file, "utf-8").then((data) => {
-        if (data) {
-          const products = JSON.parse(data);
-          this.products = products;
-          this.id = products[products.length - 1].id + 1;
-        }
-        console.log(this.products);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    fs.readFile(this.file, "utf-8", (err, data) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      if (data) {
+        this.products = JSON.parse(data);
+      }
+
+      console.log(this.products);
+    });
   }
 
   deleteById(id) {
-    try {
-      fs.readFile(this.file, "utf-8").then((data) => {
-        if (data) {
-          const products = JSON.parse(data);
-          this.products = products;
-          this.id = products[products.length - 1].id + 1;
-        }
-        const product = this.products.find((product) => product.id === id);
-        if (product) {
-          this.products = this.products.filter((product) => product.id !== id);
-          this.updateFile();
-          console.log("product deleted: ", product);
-        } else {
-          console.log("product not found");
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    fs.readFile(this.file, "utf-8", (err, data) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      if (data) {
+        this.products = JSON.parse(data);
+      }
+
+      const product = this.products.find((product) => product.id === id);
+      if (product) {
+        this.products = this.products.filter((product) => product.id !== id);
+        fs.writeFile(this.file, JSON.stringify(this.products, null, 2), (err) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          console.log("product deleted");
+        });
+      } else {
+        console.log("product not found");
+      }
+    });
   }
 
-  async readFile(callback) {
-    try {
-      await fs.readFile(this.file, "utf-8").then(callback);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async updateFile() {
-    try {
-      await fs.writeFile(this.file, JSON.stringify(this.products, null, 2));
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async deleteAll() {
-    try {
-      await fs.writeFile(this.file, "");
-    } catch (error) {
-      console.log(error);
-    }
-    console.log("products deleted");
+  deleteAll() {
+    fs.writeFile(this.file, "", (err) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log("products deleted");
+    });
   }
 }
 
@@ -99,8 +114,8 @@ class Contenedor {
 const products = new Contenedor("productos.txt");
 
 products.save({
-  title: "Product 5",
-  price: 500,
+  title: "Product 2",
+  price: 200,
   thumbnail: "https://domain.com/1.jpg",
 });
 
