@@ -1,15 +1,16 @@
 {
   "name": "backend_coderhouse",
   "version": "1.0.0",
-  "description": "coderhouse",
-  "main": "index.js",
+  "description": "backend_coderhouse",
+  "main": "main.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mariano Arias",
   "license": "ISC",
   "dependencies": {
-    "moment": "^2.29.4"
+    "express": "^4.18.2"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-const fs = require("node:fs");
+import fs from "fs";
 
 class Contenedor {
   constructor(file) {
@@ -67,7 +67,7 @@ class Contenedor {
         this.products = JSON.parse(data);
       }
 
-      console.log(this.products);
+      return this.products;
     });
   }
 
@@ -109,18 +109,4 @@ class Contenedor {
   }
 }
 
-//Test
-
-const products = new Contenedor("productos.txt");
-
-products.save({
-  title: "Product 2",
-  price: 200,
-  thumbnail: "https://domain.com/1.jpg",
-});
-
-// products.getById(2);
-// products.getById(20);
-// products.getAll();
-// products.deleteById(3);
-// products.deleteAll();
+export default Contenedor;

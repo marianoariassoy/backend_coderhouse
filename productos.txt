@@ -4,5 +4,11 @@
     "price": 100,
     "thumbnail": "https://domain.com/1.jpg",
     "id": 1
+  },
+  {
+    "title": "Product 2",
+    "price": 200,
+    "thumbnail": "https://domain.com/1.jpg",
+    "id": 2
   }
 ]
