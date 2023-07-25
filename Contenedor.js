@@ -9,9 +9,7 @@ class Contenedor {
 
   async getAll() {
     const data = await fs.readFile(this.file, "utf-8");
-    if (data) {
-      this.products = JSON.parse(data);
-    }
+    data && (this.products = JSON.parse(data));
     return this.products;
   }
 
@@ -34,7 +32,7 @@ class Contenedor {
         this.id = products[products.length - 1].id + 1;
       }
       this.products.push({ ...product, id: this.id });
-      console.log("product id: ", this.id);
+      console.log("Product added with id: ", this.id);
       this.id++;
       this.saveAll(this.products);
     } catch (error) {
@@ -53,9 +51,7 @@ class Contenedor {
   async getById(id) {
     try {
       const data = await fs.readFile(this.file, "utf-8");
-      if (data) {
-        this.products = JSON.parse(data);
-      }
+      data && (this.products = JSON.parse(data));
       const product = this.products.find((product) => product.id === id);
       product ? console.log(product) : console.log(null);
       this.saveAll(this.products);

@@ -29,14 +29,6 @@ products.save({
   thumbnail: "https://domain.com/1.jpg",
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port http://localhost:${PORT}`);
-});
-
-server.on("error", (error) => {
-  console.log("Error: ", error);
-});
-
 app.get("/productos", async (req, res) => {
   const data = await products.getAll();
   res.send(data);
@@ -45,4 +37,12 @@ app.get("/productos", async (req, res) => {
 app.get("/productoRandom", async (req, res) => {
   const data = await products.getRandomProduct();
   res.send(data);
+});
+
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port http://localhost:${PORT}`);
+});
+
+server.on("error", (error) => {
+  console.log("Error: ", error);
 });
