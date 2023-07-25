@@ -92,4 +92,10 @@ class Contenedor {
   }
 }
 
+// products.getById(2);
+// products.getById(20);
+// products.getAll();
+// products.deleteById(3);
+// products.deleteAll();
+
 export default Contenedor;

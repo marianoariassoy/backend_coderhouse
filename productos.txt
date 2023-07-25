@@ -1,14 +1,20 @@
 [
   {
-    "title": "Product 1",
-    "price": 100,
+    "title": "Product 20",
+    "price": 1000,
     "thumbnail": "https://domain.com/1.jpg",
     "id": 1
   },
   {
-    "title": "Product 2",
-    "price": 200,
+    "title": "Product 21",
+    "price": 1100,
     "thumbnail": "https://domain.com/1.jpg",
     "id": 2
+  },
+  {
+    "title": "Product 22",
+    "price": 1200,
+    "thumbnail": "https://domain.com/1.jpg",
+    "id": 3
   }
 ]
