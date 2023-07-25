@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "node:fs/promises";
 
 class Contenedor {
   constructor(file) {
@@ -7,105 +7,88 @@ class Contenedor {
     this.id = 1;
   }
 
-  save(product) {
-    fs.readFile(this.file, "utf-8", (err, data) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
+  async getAll() {
+    const data = await fs.readFile(this.file, "utf-8");
+    if (data) {
+      this.products = JSON.parse(data);
+    }
+    return this.products;
+  }
 
+  async getRandomProduct() {
+    const data = await fs.readFile(this.file, "utf-8");
+    if (data) {
+      const products = JSON.parse(data);
+      const randomIndex = Math.floor(Math.random() * products.length);
+      return products[randomIndex];
+    }
+    return data;
+  }
+
+  async save(product) {
+    try {
+      const data = await fs.readFile(this.file, "utf-8");
       if (data) {
         const products = JSON.parse(data);
         this.products = products;
         this.id = products[products.length - 1].id + 1;
       }
-
       this.products.push({ ...product, id: this.id });
       console.log("product id: ", this.id);
       this.id++;
-
-      fs.writeFile(this.file, JSON.stringify(this.products, null, 2), (err) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-      });
-    });
+      this.saveAll(this.products);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  getById(id) {
-    fs.readFile(this.file, "utf-8", (err, data) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
+  async saveAll(products) {
+    try {
+      await fs.writeFile(this.file, JSON.stringify(products, null, 2));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+  async getById(id) {
+    try {
+      const data = await fs.readFile(this.file, "utf-8");
       if (data) {
         this.products = JSON.parse(data);
       }
-
       const product = this.products.find((product) => product.id === id);
       product ? console.log(product) : console.log(null);
-
-      fs.writeFile(this.file, JSON.stringify(this.products, null, 2), (err) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-      });
-    });
+      this.saveAll(this.products);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  getAll() {
-    fs.readFile(this.file, "utf-8", (err, data) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-
+  async deleteById(id) {
+    try {
+      const data = await fs.readFile(this.file, "utf-8");
       if (data) {
         this.products = JSON.parse(data);
       }
-
-      return this.products;
-    });
-  }
-
-  deleteById(id) {
-    fs.readFile(this.file, "utf-8", (err, data) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-
-      if (data) {
-        this.products = JSON.parse(data);
-      }
-
       const product = this.products.find((product) => product.id === id);
       if (product) {
         this.products = this.products.filter((product) => product.id !== id);
-        fs.writeFile(this.file, JSON.stringify(this.products, null, 2), (err) => {
-          if (err) {
-            console.log(err);
-            return;
-          }
-          console.log("product deleted");
-        });
+        this.saveAll(this.products);
       } else {
         console.log("product not found");
       }
-    });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  deleteAll() {
-    fs.writeFile(this.file, "", (err) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
+  async deleteAll() {
+    try {
+      await fs.writeFile(this.file, "");
       console.log("products deleted");
-    });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
