@@ -1,0 +1,36 @@
+### Muestra todos los productos con un limite
+GET http://localhost:8080/api/products?limit=2
+
+### Muestra un producto por id
+GET http://localhost:8080/api/products/2
+
+### Agrega un producto
+POST http://localhost:8080/api/products/
+content-type: application/json
+
+{
+    "title": "Producto 4",
+    "description": "Descripcion del producto 4",
+    "code": "P4",
+    "price": 4000,
+    "stock": 10,
+    "category": "category 4",
+    "thumbnails": [
+        "https://via.placeholder.com/150",
+        "https://via.placeholder.com/150"
+    ]
+}
+
+### Actualiza un producto
+PUT http://localhost:8080/api/products/1
+content-type: application/json
+
+{
+    "stock": 0,
+    "status": false
+}
+
+### Elimina un producto
+DELETE http://localhost:8080/api/products/2
+
+

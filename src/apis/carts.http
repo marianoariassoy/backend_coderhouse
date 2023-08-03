@@ -1,0 +1,13 @@
+### Agrega un nuevo carrito
+POST http://localhost:8080/api/carts/
+content-type: application/json
+
+{
+  "products": [ 2,3 ]
+}
+
+### Lista los productos de un carrito por id
+GET http://localhost:8080/api/carts/2
+
+### Agrega un nuevo producto a un carrito por id
+POST http://localhost:8080/api/carts/2/product/10
