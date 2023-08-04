@@ -6,11 +6,8 @@
     "code": "P4",
     "price": 4000,
     "category": "category 4",
-    "thumbnails": [
-      "url1",
-      "url2"
-    ],
-    "stock": 1000,
-    "status": true
+    "thumbnails": ["url1", "url2"],
+    "stock": 0,
+    "status": false
   }
 ]
