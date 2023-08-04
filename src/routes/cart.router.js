@@ -23,11 +23,11 @@ router.post('/:cid/product/:pid', async (req, res) => {
 
   const findProduct = product.find((x) => x.id === parseInt(pid))
 
-  if (!findProduct) {
-    product.push({ id: parseInt(pid), quantity: 1 })
-  } else {
+  if (findProduct) {
     const productSelected = product.filter((x) => x.id === parseInt(pid))
     productSelected[0].quantity++
+  } else {
+    product.push({ id: parseInt(pid), quantity: 1 })
   }
 
   await writeFile(data, file)

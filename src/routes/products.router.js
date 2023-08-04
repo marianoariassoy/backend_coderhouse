@@ -17,17 +17,16 @@ router.get('/:pid', async (req, res) => {
   const data = await readFile(file)
   const product = data.filter((x) => x.id === +pid)
 
-  if (product.length === 0) res.status(404).json({ error: 'Product not found' })
-  else res.status(200).json(product)
+  product.length ? res.status(200).json(product) : res.status(404).json({ error: 'Product not found' })
 })
 
 router.post('/', async (req, res) => {
-  const body = req.body
+  const { title, description, code, category, stock, price } = req.body
 
-  if (body.title && body.description && body.code && body.category && body.stock && body.price) {
+  if (title && description && code && category && stock && price) {
     const data = await readFile(file)
     const id = data.length === 0 ? 1 : parseInt(data[data.length - 1].id) + 1
-    data.push({ id, ...body, status: true })
+    data.push({ id, ...req.body, status: true })
     await writeFile(data, file)
 
     res.status(200).json(data)
