@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
     data.push({ id, ...req.body, status: true })
     await writeFile(data, file)
 
-    res.status(200).json(data)
+    res.status(201).json(data)
   } else res.status(400).json({ error: 'All fields required' })
 })
 

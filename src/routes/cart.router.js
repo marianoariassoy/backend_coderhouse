@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
   const id = data.length === 0 ? 1 : parseInt(data[data.length - 1].id) + 1
   data.push({ id, ...body })
   await writeFile(data, file)
-  res.status(200).json(data)
+  res.status(201).json(data)
 })
 
 router.post('/:cid/product/:pid', async (req, res) => {
