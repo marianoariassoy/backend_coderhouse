@@ -1,53 +1,56 @@
-import fs from 'node:fs/promises'
 import { Router } from 'express'
+import { readFile, writeFile } from '../utils/fs.js'
 
 const router = Router()
+const file = './src/data/cart.json'
+const fileProducts = './src/data/products.json'
 
-const cartFile = './src/data/cart.json'
-const cartData = await fs.readFile(cartFile, 'utf-8')
-const cart = cartData === '' ? [] : JSON.parse(cartData)
-
-const productsFile = './src/data/products.json'
-const productsData = await fs.readFile(productsFile, 'utf-8')
-const products = productsData === '' ? [] : JSON.parse(productsData)
-
-let id = 1
-
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const body = req.body
-  const newCart = { id, ...body }
-  cart.push(newCart)
-  res.json(cart)
-  id++
+  const data = await readFile(file)
+  const id = data.length === 0 ? 1 : parseInt(data[data.length - 1].id) + 1
+  data.push({ id, ...body })
+  await writeFile(data, file)
+  res.status(200).json(data)
 })
 
-router.post('/:cid/product/:pid', (req, res) => {
+router.post('/:cid/product/:pid', async (req, res) => {
   const cartId = req.params.cid
   const productId = req.params.pid
 
-  const cartSelected = cart.filter((x) => x.id === parseInt(cartId))
-  const product = cartSelected[0].products
+  const data = await readFile(file)
+  const cart = data.filter((x) => x.id === parseInt(cartId))
+  const product = cart[0].products
 
-  if (product.length === 0) {
+  const findProduct = product.find((x) => x.id === parseInt(productId))
+
+  if (!findProduct) {
     product.push({ id: parseInt(productId), quantity: 1 })
   } else {
     const productSelected = product.filter((x) => x.id === parseInt(productId))
     productSelected[0].quantity++
   }
 
-  res.json(cart)
+  await writeFile(data, file)
+  res.status(200).json(product)
 })
 
-router.get('/:cid', (req, res) => {
+router.get('/:cid', async (req, res) => {
   const { cid } = req.params
-  const cartSelected = cart.filter((x) => x.id === parseInt(cid))
   const cartProducts = []
 
-  cartSelected[0].products[0].forEach((x) => {
-    const product = products.filter((item) => item.id === x.id)
-    cartProducts.push(product[0])
-  })
-  res.json(cartProducts)
+  const data = await readFile(file)
+  const cart = data.filter((x) => x.id === parseInt(cid))
+  if (cart.length > 0) {
+    const products = await readFile(fileProducts)
+
+    cart[0].products.forEach((x) => {
+      const product = products.filter((item) => item.id === parseInt(x.id))
+      cartProducts.push(product)
+    })
+
+    res.status(200).json(cartProducts)
+  } else res.status(404).json({ message: 'Cart not found' })
 })
 
 export default router

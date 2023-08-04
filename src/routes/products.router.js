@@ -1,45 +1,52 @@
-import fs from 'node:fs/promises'
 import { Router } from 'express'
+import { readFile, writeFile } from '../utils/fs.js'
 
 const router = Router()
+const file = './src/data/products.json'
 
-const productsFile = './src/data/products.json'
-const productsData = await fs.readFile(productsFile, 'utf-8')
-let products = productsData === '' ? [] : JSON.parse(productsData)
-
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   const { limit } = req.query
-  res.json(products.slice(0, limit))
+  const data = await readFile(file)
+  const list = limit > 0 ? data.slice(0, +limit) : data
+  res.status(200).json(list)
 })
 
-router.get('/:pid', (req, res) => {
+router.get('/:pid', async (req, res) => {
   const { pid } = req.params
-  res.json(products.filter((x) => x.id === +pid))
+  const data = await readFile(file)
+  const product = data.filter((x) => x.id === +pid)
+  res.status(200).json(product)
 })
 
-router.post('/', (req, res) => {
-  const body = req.body
-  const id = products.length === 0 ? 1 : parseInt(products[products.length - 1].id) + 1
-
-  products.push({ id, ...body, status: true })
-  res.json(products)
-})
-
-router.put('/:pid', (req, res) => {
-  const { pid } = req.params
+router.post('/', async (req, res) => {
   const body = req.body
 
-  const find = products.find((x) => x.id === +pid)
-  products[products.indexOf(find)] = { ...find, ...body }
+  if (body.title && body.description && body.code && body.category && body.stock && body.price) {
+    const data = await readFile(file)
+    const id = data.length === 0 ? 1 : parseInt(data[data.length - 1].id) + 1
+    data.push({ id, ...body, status: true })
+    await writeFile(data, file)
 
-  res.json(products)
+    res.status(200).json(data)
+  } else res.status(400).json({ error: 'All fields are required' })
 })
 
-router.delete('/:pid', (req, res) => {
+router.put('/:pid', async (req, res) => {
   const { pid } = req.params
+  const body = req.body
+  const data = await readFile(file)
+  const find = data.find((x) => x.id === +pid)
+  data[data.indexOf(find)] = { ...find, ...body }
+  await writeFile(data, file)
+  res.status(200).json(data)
+})
 
-  products = products.map((x) => x.id !== +pid)
-  res.json(products)
+router.delete('/:pid', async (req, res) => {
+  const { pid } = req.params
+  const data = await readFile(file)
+  const newData = data.filter((x) => x.id !== +pid)
+  await writeFile(newData, file)
+  res.status(200).json({ message: 'Product deleted' })
 })
 
 export default router
