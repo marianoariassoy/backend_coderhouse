@@ -62,7 +62,6 @@ La URL base para acceder a la API es: `http://localhost:8080`
 ### Agrega un nuevo carrito
 
 **POST** http://localhost:8080/api/carts/
-content-type: application/json
 
 ```json
 {
