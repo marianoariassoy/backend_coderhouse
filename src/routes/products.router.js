@@ -2,9 +2,10 @@ import fs from 'node:fs/promises'
 import { Router } from 'express'
 
 const router = Router()
-const file = './src/data/products.json'
-const data = await fs.readFile(file, 'utf-8')
-const products = data === '' ? [] : JSON.parse(data)
+
+const productsFile = './src/data/products.json'
+const productsData = await fs.readFile(productsFile, 'utf-8')
+let products = productsData === '' ? [] : JSON.parse(productsData)
 
 router.get('/', (req, res) => {
   const { limit } = req.query
@@ -13,14 +14,14 @@ router.get('/', (req, res) => {
 
 router.get('/:pid', (req, res) => {
   const { pid } = req.params
-  res.json(products.filter((x) => x.id === pid))
+  res.json(products.filter((x) => x.id === +pid))
 })
 
 router.post('/', (req, res) => {
   const body = req.body
-  const id = parseInt(products[products.length - 1].id) + 1
-  const newProduct = { id, ...body, status: true }
-  products.push(newProduct)
+  const id = products.length === 0 ? 1 : parseInt(products[products.length - 1].id) + 1
+
+  products.push({ id, ...body, status: true })
   res.json(products)
 })
 
@@ -28,17 +29,17 @@ router.put('/:pid', (req, res) => {
   const { pid } = req.params
   const body = req.body
 
-  const newProducts = products.map((x) => (x.id === pid ? { ...x, ...body } : x))
+  const find = products.find((x) => x.id === +pid)
+  products[products.indexOf(find)] = { ...find, ...body }
 
-  res.json(newProducts)
+  res.json(products)
 })
 
 router.delete('/:pid', (req, res) => {
   const { pid } = req.params
 
-  const newProducts = products.map((x) => x.id !== pid)
-
-  res.json(newProducts)
+  products = products.map((x) => x.id !== +pid)
+  res.json(products)
 })
 
 export default router

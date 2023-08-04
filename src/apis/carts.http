@@ -3,11 +3,13 @@ POST http://localhost:8080/api/carts/
 content-type: application/json
 
 {
-  "products": [ 2,3 ]
+  "products": []
 }
 
-### Lista los productos de un carrito por id
-GET http://localhost:8080/api/carts/2
-
 ### Agrega un nuevo producto a un carrito por id
-POST http://localhost:8080/api/carts/2/product/10
+POST http://localhost:8080/api/carts/1/product/3
+
+### Lista los productos de un carrito especifico
+GET http://localhost:8080/api/carts/1
+
+
