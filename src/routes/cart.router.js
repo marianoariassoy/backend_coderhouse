@@ -8,9 +8,7 @@ const fileProducts = './src/data/products.json'
 router.post('/', async (req, res) => {
   const body = req.body
   const data = await readFile(file)
-
   const id = data.length === 0 ? 1 : parseInt(data[data.length - 1].id) + 1
-
   data.push({ id, ...body })
   await writeFile(data, file)
   res.json(data)
@@ -18,11 +16,9 @@ router.post('/', async (req, res) => {
 
 router.post('/:cid/product/:pid', async (req, res) => {
   const { cid, pid } = req.params
-
   const data = await readFile(file)
   const cart = data.filter(x => x.id === parseInt(cid))
   const product = cart[0].products
-
   const find = product.find(x => x.id === parseInt(pid))
 
   if (find) {
@@ -39,7 +35,6 @@ router.post('/:cid/product/:pid', async (req, res) => {
 router.get('/:cid', async (req, res) => {
   const { cid } = req.params
   const cartProducts = []
-
   const data = await readFile(file)
   const cart = data.filter(x => x.id === parseInt(cid))
 
