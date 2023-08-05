@@ -9,15 +9,15 @@ router.get('/', async (req, res) => {
   const data = await readFile(file)
   const list = limit > 0 ? data.slice(0, +limit) : data
 
-  res.status(200).json(list)
+  res.json(list)
 })
 
 router.get('/:pid', async (req, res) => {
   const { pid } = req.params
   const data = await readFile(file)
-  const product = data.filter((x) => x.id === +pid)
+  const product = data.filter(x => x.id === +pid)
 
-  product.length ? res.status(200).json(product) : res.status(404).json({ error: 'Product not found' })
+  product.length ? res.json(product) : res.status(404).json({ error: 'Product not found' })
 })
 
 router.post('/', async (req, res) => {
@@ -25,11 +25,13 @@ router.post('/', async (req, res) => {
 
   if (title && description && code && category && stock && price) {
     const data = await readFile(file)
+
     const id = data.length === 0 ? 1 : parseInt(data[data.length - 1].id) + 1
     data.push({ id, ...req.body, status: true })
+
     await writeFile(data, file)
 
-    res.status(200).json(data)
+    res.json(data)
   } else res.status(400).json({ error: 'All fields required' })
 })
 
@@ -37,26 +39,26 @@ router.put('/:pid', async (req, res) => {
   const { pid } = req.params
   const body = req.body
   const data = await readFile(file)
-  const find = data.find((x) => x.id === +pid)
+  const find = data.find(x => x.id === +pid)
 
   if (find) {
     data[data.indexOf(find)] = { ...find, ...body }
     await writeFile(data, file)
 
-    res.status(200).json(data)
+    res.json(data)
   } else res.status(404).json({ error: 'Product not found' })
 })
 
 router.delete('/:pid', async (req, res) => {
   const { pid } = req.params
   const data = await readFile(file)
-  const find = data.find((x) => x.id === +pid)
+  const index = data.findIndex(x => x.id === +pid)
 
-  if (find) {
-    const newData = data.filter((x) => x.id !== +pid)
-    await writeFile(newData, file)
+  if (index !== -1) {
+    const productDelete = data.splice(index, 1)
+    await writeFile(data, file)
 
-    res.status(200).json({ message: 'Product deleted' })
+    res.json(productDelete)
   } else res.status(404).json({ error: 'Product not found' })
 })
 

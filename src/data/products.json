@@ -1,13 +1,30 @@
 [
   {
     "id": 1,
-    "title": "Producto 6",
-    "description": "Descripcion del producto 4",
-    "code": "P4",
-    "price": 4000,
-    "category": "category 4",
-    "thumbnails": ["url1", "url2"],
-    "stock": 0,
-    "status": false
+    "title": "Producto",
+    "description": "Descripcion del producto",
+    "code": "P1",
+    "price": 1000,
+    "category": "Category 1",
+    "thumbnails": [
+      "url1",
+      "url2"
+    ],
+    "stock": 10,
+    "status": true
+  },
+  {
+    "id": 3,
+    "title": "Producto",
+    "description": "Descripcion del producto",
+    "code": "P1",
+    "price": 1000,
+    "category": "Category 1",
+    "thumbnails": [
+      "url1",
+      "url2"
+    ],
+    "stock": 10,
+    "status": true
   }
 ]
