@@ -24,9 +24,10 @@ router.post('/', async (req, res) => {
   if (title && description && code && category && stock && price) {
     const data = await readFile(file)
     const id = data.length === 0 ? 1 : parseInt(data[data.length - 1].id) + 1
-    data.push({ id, ...req.body, status: true })
+    const product = { id, ...req.body, status: true }
+    data.push(product)
     await writeFile(data, file)
-    res.json(data)
+    res.json({ message: 'Product was added', ...product })
   } else res.status(400).json({ error: 'All fields required' })
 })
 
@@ -37,9 +38,10 @@ router.put('/:pid', async (req, res) => {
   const find = data.find(x => x.id === +pid)
 
   if (find) {
-    data[data.indexOf(find)] = { ...find, ...body }
+    const product = { ...find, ...body }
+    data[data.indexOf(find)] = product
     await writeFile(data, file)
-    res.json(data)
+    res.json({ message: 'Product modified', ...product })
   } else res.status(404).json({ error: 'Product not found' })
 })
 
@@ -49,9 +51,9 @@ router.delete('/:pid', async (req, res) => {
   const index = data.findIndex(x => x.id === +pid)
 
   if (index !== -1) {
-    const productDelete = data.splice(index, 1)
+    data.splice(index, 1)
     await writeFile(data, file)
-    res.json(productDelete)
+    res.json({ message: 'Product delete' })
   } else res.status(404).json({ error: 'Product not found' })
 })
 

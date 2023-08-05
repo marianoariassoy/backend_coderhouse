@@ -6,7 +6,10 @@
     "code": "P1",
     "price": 1000,
     "category": "Category 1",
-    "thumbnails": ["url1", "url2"],
+    "thumbnails": [
+      "url1",
+      "url2"
+    ],
     "stock": 10,
     "status": true
   }
