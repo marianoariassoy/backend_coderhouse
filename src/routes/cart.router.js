@@ -17,19 +17,22 @@ router.post('/', async (req, res) => {
 router.post('/:cid/product/:pid', async (req, res) => {
   const { cid, pid } = req.params
   const data = await readFile(file)
-  const cart = data.filter(x => x.id === parseInt(cid))
-  const product = cart[0].products
-  const find = product.find(x => x.id === parseInt(pid))
+  const cart = data.find(x => x.id === +cid)
 
-  if (find) {
-    const productSelected = product.filter(x => x.id === parseInt(pid))
-    productSelected[0].quantity++
-  } else {
-    product.push({ id: parseInt(pid), quantity: 1 })
-  }
+  if (cart) {
+    const product = cart.products
+    const find = product.find(x => x.id === +pid)
 
-  await writeFile(data, file)
-  res.json(product)
+    if (find) {
+      const productSelected = product.filter(x => x.id === +pid)
+      productSelected[0].quantity++
+    } else {
+      product.push({ id: +pid, quantity: 1 })
+    }
+
+    await writeFile(data, file)
+    res.json(product)
+  } else res.status(404).json({ message: 'Cart not found' })
 })
 
 router.get('/:cid', async (req, res) => {
