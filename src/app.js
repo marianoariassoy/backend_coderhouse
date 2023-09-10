@@ -1,21 +1,25 @@
 import express from 'express'
-import handlebars from 'express-handlebars'
+import mongoose from 'mongoose'
 import productsRouter from './routes/products.router.js'
-import cartRouter from './routes/cart.router.js'
+import cartsRouter from './routes/carts.router.js'
 
 const app = express()
 const PORT = 8080
 
-app.engine('handlebars', handlebars.engine())
-app.set('view engine', 'handlebars')
-app.set('views', './views')
-
-app.use(express.static('public'))
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
 
 app.use('/api/products', productsRouter)
-app.use('/api/carts', cartRouter)
+app.use('/api/carts', cartsRouter)
 
 const server = app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`))
 server.on('error', error => console.log('Error: ', error))
+
+mongoose
+  .connect('mongodb+srv://santo:santo@cluster0.8ix6f.mongodb.net/?retryWrites=true&w=majority')
+
+  .then(() => {
+    console.log('Connected to the database')
+  })
+  .catch(error => {
+    console.error('Error connecting to the database:', error)
+  })
