@@ -1,7 +1,7 @@
-### Productos con parametros por defecto
+### Listado de productos
 GET http://localhost:8080/api/products
 
-### Busqueda completa de productos
+### Listado de productos con parametros
 GET http://localhost:8080/api/products?page=1&limit=2&category=&sort=desc
 
 ### Producto por id

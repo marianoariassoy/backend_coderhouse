@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     const page = parseInt(req.query.page, 10) || 1
     const limit = parseInt(req.query.limit, 10) || 10
     const sort = req.query.sort === 'asc' ? { price: 1 } : req.query.sort === 'desc' ? { price: -1 } : {}
-    const filter = req.query.category ? { category: req.query.category } : {}
+    const filter = req.query.category === 'all' ? {} : req.query.category ? { category: req.query.category } : {}
 
     const options = {
       page,
@@ -29,8 +29,7 @@ router.get('/', async (req, res) => {
         }`
       : null
 
-    res.send({ result: 'success', payload: products, prevLink, nextLink })
-    // console.log(options)
+    res.send({ result: 'success', payload: { ...products, prevLink, nextLink } })
   } catch (error) {
     console.log('error: ' + error)
   }
