@@ -12,7 +12,7 @@ Esta API está construida utilizando Node.js y Express, y proporciona endpoints 
 
 ## Dependencias
 
-- Express
+- Express, Express-handlebars, MongoDB, Mongoose, Mongoose-paginate-v2
 
 ## Base URL
 
@@ -20,13 +20,17 @@ La URL base para acceder a la API es: `http://localhost:8080`
 
 ## Endpoints
 
-### Muestra todos los productos con un limite
+### Muestra todos los productos
 
-**GET** http://localhost:8080/api/products?limit=5
+**GET** http://localhost:8080/api/products
+
+### Muestra todos los productos con parametros
+
+**GET** http://localhost:8080/api/products?page=1&limit=2&category=Remeras&sort=desc
 
 ### Muestra un producto por ID
 
-**GET** http://localhost:8080/api/products/1
+**GET** http://localhost:8080/api/products/:pid
 
 ### Agrega un producto
 
@@ -34,19 +38,19 @@ La URL base para acceder a la API es: `http://localhost:8080`
 
 ```json
 {
-  "title": "Producto",
+  "title": "Remera Red",
   "description": "Descripcion del producto",
   "code": "P1",
-  "price": 1000,
-  "category": "Category 1",
-  "thumbnails": ["url1", "url2"],
-  "stock": 10
+  "price": 4000,
+  "image": "https://images.pexels.com/photos/1043148/pexels-photo-1043148.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  "category": "Remeras",
+  "stock": 2
 }
 ```
 
 ### Actualiza un producto
 
-**PUT** http://localhost:8080/api/products/2
+**PUT** http://localhost:8080/api/products/:pid
 
 ```json
 {
@@ -57,25 +61,47 @@ La URL base para acceder a la API es: `http://localhost:8080`
 
 ### Elimina un producto por ID
 
-**DELETE** http://localhost:8080/api/products/2
+**DELETE** http://localhost:8080/api/products/:pid
 
-### Agrega un nuevo carrito
+### Nuevo carrito
 
 **POST** http://localhost:8080/api/carts/
 
+### Listado de carritos
+
+**GET** http://localhost:8080/api/carts/
+
+### Carrito por ID
+
+**GET** http://localhost:8080/api/carts/:cid
+
+### Agrega un producto a un
+
+**POST** http://localhost:8080/api/carts/:cid
+
 ```json
 {
-  "products": []
+  "product": "64fc8abdcf7383d11afde540"
 }
 ```
 
-### Agrega un producto a un carrito por ID
+### Actualizar la cantidad de un producto en el carrito
 
-**POST** http://localhost:8080/api/carts/2/product/3
+**PUT** http://localhost:8080/api/carts/:cid/products/:pid
 
-### Lista los productos de un carrito por ID
+```json
+{
+  "quantity": 4
+}
+```
 
-**GET** http://localhost:8080/api/carts/6
+### Elimina un producto del carrito
+
+**DELETE** http://localhost:8080/api/carts/:cid/products/:pid
+
+### Elimina los productos del carrito
+
+**DELETE** http://localhost:8080/api/carts/:cid
 
 ## Extensiones
 

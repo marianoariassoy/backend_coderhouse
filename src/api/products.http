@@ -1,8 +1,8 @@
-### Listado de productos
+### Listado de productos sin parametros
 GET http://localhost:8080/api/products
 
 ### Listado de productos con parametros
-GET http://localhost:8080/api/products?page=1&limit=2&category=&sort=desc
+GET http://localhost:8080/api/products?page=1&limit=2&category=Remeras&sort=desc
 
 ### Producto por id
 GET http://localhost:8080/api/products/64fc8a53cf7383d11afde539
