@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { cartsModel } from '../models/carts.model.js'
+import { productsModel } from '../models/products.model.js'
 const router = Router()
 
 router.get('/', async (req, res) => {
@@ -9,7 +10,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:cid', async (req, res) => {
   const { cid } = req.params
-  const result = await cartsModel.find({ _id: cid }).populate('products.product')
+  const result = await cartsModel.findOne({ _id: cid }).populate('products.product')
   res.send({ status: 'success', payload: result })
 })
 
@@ -21,10 +22,10 @@ router.post('/', async (req, res) => {
 router.put('/:cid', async (req, res) => {
   const { cid } = req.params
   const { product } = req.body
-  const cart = await cartsModel.find({ _id: cid })
+  const cart = await cartsModel.findOne({ _id: cid })
 
-  if (cart.length > 0) {
-    const products = cart[0].products || []
+  if (cart) {
+    const products = cart.products || []
 
     if (products.length > 0) {
       const find = products.find(x => x.product == product)
@@ -45,27 +46,55 @@ router.put('/:cid', async (req, res) => {
 router.put('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params
   const { quantity } = req.body
-  const cart = await cartsModel.find({ _id: cid })
 
-  if (cart.length > 0) {
-    const products = cart[0].products
+  const cart = await cartsModel.findOne({ _id: cid })
 
-    if (products.length > 0) {
-      const find = products.find(x => x.product == pid)
-      if (find) {
-        find.quantity = quantity
-        await cartsModel.updateOne({ _id: cid }, { products })
-        res.send({ status: 'success', payload: cart })
-      } else {
+  if (cart) {
+    const products = cart.products
+    const find = products.find(x => x.product == pid)
+
+    if (find) {
+      find.quantity = quantity || find.quantity + 1
+      await cartsModel.updateOne({ _id: cid }, { products })
+      res.send({ status: 'success', payload: cart })
+    } else {
+      const product = await productsModel.findOne({ _id: pid })
+
+      if (!product) {
         res.status(404).json({ message: 'Product not found' })
       }
-    } else {
-      res.status(404).json({ message: 'Products not found' })
+
+      products.push({ product: product.id, quantity: quantity || 1 })
+
+      res.send({ status: 'product upload to cart', payload: cart })
     }
+
+    await cart.save()
   } else res.status(404).json({ message: 'Cart not found' })
 })
 
-export default router
+// router.put('/:cid/products/:pid', async (req, res) => {
+//   const { cid, pid } = req.params
+//   const { quantity } = req.body
+//   const cart = await cartsModel.find({ _id: cid })
+
+//   if (cart.length > 0) {
+//     const products = cart[0].products
+
+//     if (products.length > 0) {
+//       const find = products.find(x => x.product == pid)
+//       if (find) {
+//         find.quantity = quantity
+//         await cartsModel.updateOne({ _id: cid }, { products })
+//         res.send({ status: 'success', payload: cart })
+//       } else {
+//         res.status(404).json({ message: 'Product not found' })
+//       }
+//     } else {
+//       res.status(404).json({ message: 'Products not found' })
+//     }
+//   } else res.status(404).json({ message: 'Cart not found' })
+// })
 
 router.delete('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params
@@ -92,3 +121,5 @@ router.delete('/:cid', async (req, res) => {
     res.send({ status: 'product deleted', payload: cart })
   } else res.status(404).json({ message: 'Cart not found' })
 })
+
+export default router
