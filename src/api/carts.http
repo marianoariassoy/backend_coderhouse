@@ -15,6 +15,9 @@ content-type: application/json
     "product": "64fc8ad5cf7383d11afde544"
 }
 
+### Agrega un producto al carrito
+PUT http://localhost:8080/api/carts/65027b9c2601b3c672595045/products/64fc8ad5cf7383d11afde544
+
 ### Actualizar la cantidad de un producto en el carrito
 PUT http://localhost:8080/api/carts/64fd26c7e7ae10b0235dd181/products/64fc8a53cf7383d11afde539
 content-type: application/json

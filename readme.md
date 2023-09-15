@@ -12,13 +12,31 @@ Esta API está construida utilizando Node.js y Express, y proporciona endpoints 
 
 ## Dependencias
 
-- Express, Express-handlebars, MongoDB, Mongoose, Mongoose-paginate-v2
+- express, express-handlebars, express-session, MongoDB, mongoose, mongoose-paginate-v2, connect-mongo, bcrypt
 
 ## Base URL
 
 La URL base para acceder a la API es: `http://localhost:8080`
 
-## Endpoints
+## Endpoints Usuarios
+
+### Base URL
+
+**GET** http://localhost:8080/api/sessions
+
+### Login
+
+**GET** http://localhost:8080/api/sessions/login
+
+### Register
+
+**GET** http://localhost:8080/api/sessions/register
+
+### Profile
+
+**GET** http://localhost:8080/api/sessions/profile
+
+## Endpoints Productos
 
 ### Muestra todos los productos
 

@@ -1,0 +1,23 @@
+### Listado de usuarios
+GET http://localhost:8080/api/sessions
+
+### Registro de usuario
+POST http://localhost:8080/api/sessions/register
+content-type: application/json
+
+{
+    "firstName": "Irma",
+    "lastName": "Arias",
+    "email": "irma@email.com",
+    "age": 79,
+    "password": "123456"
+}
+
+### Login
+POST http://localhost:8080/api/sessions/login
+content-type: application/json
+
+{
+    "email": "irma@email.com",
+    "password": "123456"
+}
