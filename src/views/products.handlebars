@@ -1,1 +1,16 @@
 <h1>Products</h1>
+<h2>Welcome {{firstName}} {{lastName}}</h2>
+<p>Rol:
+  {{#if isAdmin}}
+    <strong>Administrador</strong>
+  {{else}}
+    <strong>Usuario</strong>
+  {{/if}}
+</p>
+
+<p>
+  Products list
+  <br /><br />
+</p>
+
+<a href='logout'>Logout</a>

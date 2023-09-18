@@ -4,11 +4,6 @@ import { createHash, isValidatePassword } from '../utils.js'
 
 const router = Router()
 
-// Gets
-router.get('/', async (req, res) => {
-  res.render('index')
-})
-
 router.get('/login', async (req, res) => {
   res.render('login')
 })
@@ -17,7 +12,6 @@ router.get('/register', (req, res) => {
   res.render('register')
 })
 
-// Gets privados
 router.get('/profile', (req, res) => {
   if (!req.session.user) {
     return res.redirect('login')
@@ -30,7 +24,8 @@ router.get('/products', async (req, res) => {
   if (!req.session.user) {
     return res.redirect('login')
   }
-  res.render('products')
+  const { firstName, lastName, isAdmin } = req.session.user
+  res.render('products', { firstName, lastName, isAdmin })
 })
 
 router.get('/logout', async (req, res) => {
@@ -51,8 +46,13 @@ router.post('/login', async (req, res) => {
   }
 
   delete user.password
+  if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+    user.isAdmin = true
+  } else {
+    user.isAdmin = false
+  }
   req.session.user = user
-  res.redirect('profile')
+  res.redirect('products')
 })
 
 router.post('/register', async (req, res) => {
