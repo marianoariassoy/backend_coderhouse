@@ -4,36 +4,6 @@ import { createHash, isValidatePassword } from '../utils.js'
 
 const router = Router()
 
-router.get('/login', async (req, res) => {
-  res.render('login')
-})
-
-router.get('/register', (req, res) => {
-  res.render('register')
-})
-
-router.get('/profile', (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('login')
-  }
-  const { firstName, lastName, email, age } = req.session.user
-  res.render('profile', { firstName, lastName, email, age })
-})
-
-router.get('/products', async (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('login')
-  }
-  const { firstName, lastName, isAdmin } = req.session.user
-  res.render('products', { firstName, lastName, isAdmin })
-})
-
-router.get('/logout', async (req, res) => {
-  delete req.session.user
-  res.redirect('login')
-})
-
-// Posts
 router.post('/login', async (req, res) => {
   const { email, password } = req.body
   if (!email || !password) return res.status(400).render('login', { error: 'Incomplete values' })
@@ -52,7 +22,7 @@ router.post('/login', async (req, res) => {
     user.isAdmin = false
   }
   req.session.user = user
-  res.redirect('products')
+  res.redirect('http://localhost:8080/products')
 })
 
 router.post('/register', async (req, res) => {
@@ -71,7 +41,7 @@ router.post('/register', async (req, res) => {
   })
 
   if (!user) res.status(400).send('User not created')
-  res.redirect('login')
+  res.redirect('http://localhost:8080/login')
 })
 
 export default router

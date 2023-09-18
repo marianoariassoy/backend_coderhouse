@@ -54,6 +54,33 @@ app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/sessions', usersRouter)
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+// Vistas de usuario
+
+app.get('/login', async (req, res) => {
+  res.render('login')
+})
+
+app.get('/register', (req, res) => {
+  res.render('register')
+})
+
+app.get('/profile', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('login')
+  }
+  const { firstName, lastName, email, age } = req.session.user
+  res.render('profile', { firstName, lastName, email, age })
+})
+
+app.get('/products', async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('login')
+  }
+  const { firstName, lastName, isAdmin } = req.session.user
+  res.render('products', { firstName, lastName, isAdmin })
+})
+
+app.get('/logout', async (req, res) => {
+  delete req.session.user
+  res.redirect('login')
 })
