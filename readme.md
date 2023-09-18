@@ -18,15 +18,15 @@ Esta API está construida utilizando Node.js y Express, y proporciona endpoints 
 
 La URL base para acceder a la API es: `http://localhost:8080`
 
-## Endpoints Usuarios
+## Endpoints Sesiones de usuario
 
 ### Base URL
-
-**GET** http://localhost:8080/api/sessions
 
 ### Login
 
 **GET** http://localhost:8080/api/sessions/login
+
+Usuario de prueba: email@email.com / 123456
 
 ### Register
 
