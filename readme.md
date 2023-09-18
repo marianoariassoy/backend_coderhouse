@@ -8,7 +8,7 @@ Esta API está construida utilizando Node.js y Express, y proporciona endpoints 
 
 - Clonar el repositorio => https://github.com/marianoariassoy/backend_coderhouse
 - Instalar las dependencias => npm i
-- Correr la app => npm run dev
+- Correr la app => npm run start
 
 ## Dependencias
 
@@ -17,6 +17,10 @@ Esta API está construida utilizando Node.js y Express, y proporciona endpoints 
 ## Base URL
 
 La URL base para acceder a la API es: `http://localhost:8080`
+
+## Vista de Usuarios
+
+http://localhost:8080/login
 
 ## Endpoints Sesiones de usuario
 
