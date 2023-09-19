@@ -73,29 +73,6 @@ router.put('/:cid/products/:pid', async (req, res) => {
   } else res.status(404).json({ message: 'Cart not found' })
 })
 
-// router.put('/:cid/products/:pid', async (req, res) => {
-//   const { cid, pid } = req.params
-//   const { quantity } = req.body
-//   const cart = await cartsModel.find({ _id: cid })
-
-//   if (cart.length > 0) {
-//     const products = cart[0].products
-
-//     if (products.length > 0) {
-//       const find = products.find(x => x.product == pid)
-//       if (find) {
-//         find.quantity = quantity
-//         await cartsModel.updateOne({ _id: cid }, { products })
-//         res.send({ status: 'success', payload: cart })
-//       } else {
-//         res.status(404).json({ message: 'Product not found' })
-//       }
-//     } else {
-//       res.status(404).json({ message: 'Products not found' })
-//     }
-//   } else res.status(404).json({ message: 'Cart not found' })
-// })
-
 router.delete('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params
   const cart = await cartsModel.find({ _id: cid })

@@ -5,7 +5,8 @@ import session from 'express-session'
 import handlebars from 'express-handlebars'
 import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
-import usersRouter from './routes/users.router.js'
+import usersRouter from './routes/sessions.router.js'
+import viewsRouter from './routes/views.router.js'
 import { __dirname } from './utils.js'
 
 const app = express()
@@ -50,37 +51,7 @@ app.set('view engine', 'handlebars')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.use('/', viewsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/sessions', usersRouter)
-
-// Vistas de usuario
-
-app.get('/login', async (req, res) => {
-  res.render('login')
-})
-
-app.get('/register', (req, res) => {
-  res.render('register')
-})
-
-app.get('/profile', (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('login')
-  }
-  const { firstName, lastName, email, age } = req.session.user
-  res.render('profile', { firstName, lastName, email, age })
-})
-
-app.get('/products', async (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('login')
-  }
-  const { firstName, lastName, isAdmin } = req.session.user
-  res.render('products', { firstName, lastName, isAdmin })
-})
-
-app.get('/logout', async (req, res) => {
-  delete req.session.user
-  res.redirect('login')
-})
