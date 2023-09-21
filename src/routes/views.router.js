@@ -1,16 +1,17 @@
 import { Router } from 'express'
+import { productsModel } from '../models/products.model.js'
 const router = Router()
 
 router.get('/', async (req, res) => {
-  res.render('login')
+  res.render('login', { session: req.session.user })
 })
 
 router.get('/login', async (req, res) => {
-  res.render('login')
+  res.render('login', { session: req.session.user })
 })
 
 router.get('/register', (req, res) => {
-  res.render('register')
+  res.render('register', { session: req.session.user })
 })
 
 router.get('/profile', (req, res) => {
@@ -18,15 +19,16 @@ router.get('/profile', (req, res) => {
     return res.redirect('login')
   }
   const { firstName, lastName, email, age } = req.session.user
-  res.render('profile', { firstName, lastName, email, age })
+  res.render('profile', { firstName, lastName, email, age, session: req.session.user })
 })
 
 router.get('/products', async (req, res) => {
   if (!req.session.user) {
     return res.redirect('login')
   }
-  const { firstName, lastName, isAdmin } = req.session.user
-  res.render('products', { firstName, lastName, isAdmin })
+  const products = await productsModel.find()
+  const { email } = req.session.user
+  res.render('products', { email, session: req.session.user, products })
 })
 
 router.get('/logout', async (req, res) => {

@@ -1,8 +1,18 @@
 import { Router } from 'express'
+import passport from 'passport'
 import { usersModel } from '../models/users.model.js'
 import { createHash, isValidatePassword } from '../utils.js'
 
 const router = Router()
+
+router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {
+  res.redirect('http://localhost:8080/products')
+})
+
+router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), async (req, res) => {
+  req.session.user = req.user
+  res.redirect('/products')
+})
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body

@@ -1,5 +1,4 @@
 <h1>Products</h1>
-<h2>Welcome {{firstName}} {{lastName}}</h2>
 <p>Rol:
   {{#if isAdmin}}
     <strong>Administrador</strong>
@@ -8,9 +7,16 @@
   {{/if}}
 </p>
 
-<p>
-  Products list
-  <br /><br />
-</p>
-
-<a href='logout'>Logout</a>
+<ul>
+  {{#each products}}
+    <li>
+      <h2>{{title}}</h2>
+      <p>Descripción: {{description}}</p>
+      <p>Código: {{code}}</p>
+      <p>Precio: ${{price}}</p>
+      <p>Categoría: {{category}}</p>
+      <p>Stock: {{stock}}</p>
+      <img src='{{image}}' alt='{{title}}' width='200' />
+    </li>
+  {{/each}}
+</ul>
