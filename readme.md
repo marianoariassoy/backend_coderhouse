@@ -8,11 +8,7 @@ Esta API está construida utilizando Node.js y Express, y proporciona endpoints 
 
 - Clonar el repositorio => https://github.com/marianoariassoy/backend_coderhouse
 - Instalar las dependencias => npm i
-- Correr la app => npm run start
-
-## Dependencias
-
-- express, express-handlebars, express-session, MongoDB, mongoose, mongoose-paginate-v2, connect-mongo, bcrypt
+- Correr la app => npm run dev
 
 ## Base URL
 
