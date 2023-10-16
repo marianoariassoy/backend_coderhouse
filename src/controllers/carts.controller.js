@@ -1,0 +1,97 @@
+import { cartsModel } from '../models/carts.model.js'
+import { productsModel } from '../models/products.model.js'
+
+export const getAllCarts = async (req, res) => {
+  const result = await cartsModel.find().populate('products.product')
+  res.send({ status: 'success', payload: result })
+}
+
+export const getCart = async (req, res) => {
+  const { cid } = req.params
+  const result = await cartsModel.findOne({ _id: cid }).populate('products.product')
+  res.send({ status: 'success', payload: result })
+}
+
+export const createCart = async (req, res) => {
+  const result = await cartsModel.create({})
+  res.send({ status: 'success', payload: result })
+}
+
+export const editCart = async (req, res) => {
+  const { cid } = req.params
+  const { product } = req.body
+  const cart = await cartsModel.findOne({ _id: cid })
+
+  if (cart) {
+    const products = cart.products || []
+
+    if (products.length > 0) {
+      const find = products.find(x => x.product == product)
+      if (find) {
+        find.quantity++
+      } else {
+        products.push({ product, quantity: 1 })
+      }
+    } else {
+      products.push({ product, quantity: 1 })
+    }
+
+    await cartsModel.updateOne({ _id: cid }, { products })
+    res.send({ status: 'success', payload: cart })
+  } else res.status(404).json({ message: 'Cart not found' })
+}
+
+export const editProduct = async (req, res) => {
+  const { cid, pid } = req.params
+  const { quantity } = req.body
+
+  const cart = await cartsModel.findOne({ _id: cid })
+
+  if (cart) {
+    const products = cart.products
+    const find = products.find(x => x.product == pid)
+
+    if (find) {
+      find.quantity = quantity || find.quantity + 1
+      await cartsModel.updateOne({ _id: cid }, { products })
+      res.send({ status: 'success', payload: cart })
+    } else {
+      const product = await productsModel.findOne({ _id: pid })
+
+      if (!product) {
+        res.status(404).json({ message: 'Product not found' })
+      }
+
+      products.push({ product: product.id, quantity: quantity || 1 })
+
+      res.send({ status: 'product upload to cart', payload: cart })
+    }
+
+    await cart.save()
+  } else res.status(404).json({ message: 'Cart not found' })
+}
+export const deleteProduct = async (req, res) => {
+  const { cid, pid } = req.params
+  const cart = await cartsModel.find({ _id: cid })
+
+  if (cart.length > 0) {
+    const products = cart[0].products
+    if (products.length > 0) {
+      const result = products.filter(x => x.product != pid)
+      await cartsModel.updateOne({ _id: cid }, { products: result })
+      res.send({ status: 'product deleted', payload: cart })
+    } else {
+      res.status(404).json({ message: 'Product not found' })
+    }
+  } else res.status(404).json({ message: 'Cart not found' })
+}
+
+export const deleteCart = async (req, res) => {
+  const { cid } = req.params
+  const cart = await cartsModel.find({ _id: cid })
+
+  if (cart.length > 0) {
+    await cartsModel.deleteOne({ _id: cid })
+    res.send({ status: 'cart deleted', payload: cart })
+  } else res.status(404).json({ message: 'Cart not found' })
+}

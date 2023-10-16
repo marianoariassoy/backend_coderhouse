@@ -12,7 +12,7 @@ POST http://localhost:8080/api/products
 content-type: application/json
 
 {
-    "title": "Remera Red",
+    "title": "Nuevo Producto",
     "description": "Descripcion del producto",
     "code": "P1",
     "price": 4000,
@@ -31,6 +31,6 @@ content-type: application/json
 }
 
 ### Elimina un producto
-DELETE http://localhost:8080/api/products/64fc8a38cf7383d11afde537
+DELETE http://localhost:8080/api/products/652da98e9ebadf69730f72ba
 
 
