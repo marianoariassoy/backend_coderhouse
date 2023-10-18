@@ -2,7 +2,6 @@ import express from 'express'
 import session from 'express-session'
 import handlebars from 'express-handlebars'
 import passport from 'passport'
-import dotenv from 'dotenv'
 import cors from 'cors'
 
 import { initializePassport } from './config/passport.config.js'
@@ -11,10 +10,10 @@ import cartsRouter from './routes/carts.router.js'
 import sessionsRouter from './routes/sessions.router.js'
 import viewsRouter from './routes/views.router.js'
 import { __dirname } from './utils.js'
-import './database.js'
 
 // Setup
-dotenv.config()
+import config from './config/config.js'
+import './dao/mongo/database.js'
 const app = express()
 
 // Views
@@ -27,7 +26,7 @@ app.use(cors())
 initializePassport()
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: config.sessionSecret,
     resave: false,
     saveUninitialized: true
   })
@@ -43,5 +42,5 @@ app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 
 // Server
-const PORT = process.env.PORT || 8080
+const PORT = config.port
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`))

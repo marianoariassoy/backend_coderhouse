@@ -1,10 +1,5 @@
-import {
-  getAllProductsDB,
-  getProductByIdDB,
-  createProductDB,
-  editProductDB,
-  deleteProductDB
-} from '../persistence/products.persistence.js'
+import Products from '../dao/mongo/products.mongo.js'
+const productsServices = new Products()
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -19,7 +14,7 @@ export const getAllProducts = async (req, res) => {
       sort
     }
 
-    const products = await getAllProductsDB(filter, options)
+    const products = await productsServices.get(filter, options)
 
     const prevLink = products.hasPrevPage
       ? `http://localhost:8080/api/products?page=${page - 1}&limit=${limit}&sort=${req.query.sort}&category=${
@@ -40,13 +35,13 @@ export const getAllProducts = async (req, res) => {
 
 export const getProductById = async (req, res) => {
   const { pid } = req.params
-  const result = await getProductByIdDB(pid)
+  const result = await productsServices.getById(pid)
   res.send({ status: 'success', payload: result })
 }
 
 export const createProduct = async (req, res) => {
   const { title, description, code, price, image, category, stock } = req.body
-  const result = await createProductDB(title, description, code, price, image, category, stock)
+  const result = await productsServices.create(title, description, code, price, image, category, stock)
   res.send({ status: 'success', payload: result })
 }
 
@@ -54,12 +49,12 @@ export const editProduct = async (req, res) => {
   const { pid } = req.params
   const { stock } = req.body
   if (stock < 0) return res.send({ status: 'error', error: 'Incomplete values' })
-  const result = await editProductDB(pid, stock)
+  const result = await productsServices.edit(pid, stock)
   res.send({ status: 'success', payload: result })
 }
 
 export const deleteProduct = async (req, res) => {
   const { pid } = req.params
-  const result = deleteProductDB(pid)
-  res.send({ status: 'success', payload: result })
+  productsServices.delete(pid)
+  res.send({ status: 'Product deleted' })
 }

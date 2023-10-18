@@ -2,10 +2,10 @@
 GET http://localhost:8080/api/products
 
 ### Listado de productos con parametros
-GET http://localhost:8080/api/products?page=1&limit=2&category=Remeras&sort=desc
+GET http://localhost:8080/api/products?page=1&limit=2&category=camisas&sort=desc
 
 ### Producto por id
-GET http://localhost:8080/api/products/64fc8a53cf7383d11afde539
+GET http://localhost:8080/api/products/64ff9325ec9218e9252a7389
 
 ### Agrega un producto
 POST http://localhost:8080/api/products
@@ -22,7 +22,7 @@ content-type: application/json
 }
 
 ### Actualiza un producto
-PUT http://localhost:8080/api/products/64fc8ad5cf7383d11afde544
+PUT http://localhost:8080/api/products/64ff9325ec9218e9252a7389
 content-type: application/json
 
 {
@@ -31,6 +31,6 @@ content-type: application/json
 }
 
 ### Elimina un producto
-DELETE http://localhost:8080/api/products/652da98e9ebadf69730f72ba
+DELETE http://localhost:8080/api/products/6530268a155bc3f2d6227fa8
 
 

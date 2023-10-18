@@ -12,7 +12,7 @@ const router = Router()
 router.get('/', getAllProducts)
 router.get('/:pid', getProductById)
 router.post('/', createProduct)
-router.put('/', editProduct)
+router.put('/:pid', editProduct)
 router.delete('/:pid', deleteProduct)
 
 export default router

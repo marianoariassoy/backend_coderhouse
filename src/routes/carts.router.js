@@ -3,7 +3,7 @@ import {
   getAllCarts,
   getCart,
   createCart,
-  editCart,
+  addProduct,
   editProduct,
   deleteProduct,
   deleteCart
@@ -13,7 +13,7 @@ const router = Router()
 router.get('/', getAllCarts)
 router.get('/:cid', getCart)
 router.post('/', createCart)
-router.put('/:cid', editCart)
+router.put('/:cid', addProduct)
 router.put('/:cid/products/:pid', editProduct)
 router.delete('/:cid/products/:pid', deleteProduct)
 router.delete('/:cid', deleteCart)

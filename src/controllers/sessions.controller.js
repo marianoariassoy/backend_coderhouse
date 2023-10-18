@@ -1,11 +1,12 @@
-import { usersModel } from '../models/users.model.js'
+import Sessions from '../dao/mongo/sessions.mongo.js'
 import { createHash, isValidatePassword } from '../utils.js'
+const sessionsServices = new Sessions()
 
 export const login = async (req, res) => {
   const { email, password } = req.body
   if (!email || !password) return res.status(400).render('login', { error: 'Incomplete values' })
 
-  const user = await usersModel.findOne({ email }, { firstName: 1, lastName: 1, age: 1, password: 1, email: 1 })
+  const user = sessionsServices.get(email)
 
   if (!user) return res.status(400).render('login', { error: 'User not found' })
   if (!isValidatePassword(user, password)) {
@@ -38,13 +39,7 @@ export const register = async (req, res) => {
     return res.status(400).send('Incomplete values')
   }
 
-  const user = await usersModel.create({
-    firstName,
-    lastName,
-    email,
-    age,
-    password: createHash(password)
-  })
+  const user = await sessionsServices.create(firstName, lastName, email, age, createHash(password))
 
   if (!user) res.status(400).send('User not created')
   res.redirect('http://localhost:8080/login')
