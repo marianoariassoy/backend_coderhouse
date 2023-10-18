@@ -4,15 +4,15 @@ import handlebars from 'express-handlebars'
 import passport from 'passport'
 import cors from 'cors'
 
-import { initializePassport } from './config/passport.config.js'
 import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import sessionsRouter from './routes/sessions.router.js'
 import viewsRouter from './routes/views.router.js'
 import { __dirname } from './utils.js'
 
-// Setup
+// Config
 import config from './config/config.js'
+import { initializePassport } from './config/passport.config.js'
 import './dao/mongo/database.js'
 const app = express()
 
