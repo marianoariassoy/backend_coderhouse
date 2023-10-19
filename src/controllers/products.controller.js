@@ -1,4 +1,4 @@
-import Products from '../dao/mongo/products.mongo.js'
+import Products from '../dao/classes/products.dao.js'
 const productsServices = new Products()
 
 export const getAllProducts = async (req, res) => {
@@ -42,7 +42,7 @@ export const getProductById = async (req, res) => {
 export const createProduct = async (req, res) => {
   const { title, description, code, price, image, category, stock } = req.body
   const result = await productsServices.create(title, description, code, price, image, category, stock)
-  res.send({ status: 'success', payload: result })
+  res.send({ status: 'product created', payload: result })
 }
 
 export const editProduct = async (req, res) => {
@@ -50,11 +50,11 @@ export const editProduct = async (req, res) => {
   const { stock } = req.body
   if (stock < 0) return res.send({ status: 'error', error: 'Incomplete values' })
   const result = await productsServices.edit(pid, stock)
-  res.send({ status: 'success', payload: result })
+  res.send({ status: 'product edited', payload: result })
 }
 
 export const deleteProduct = async (req, res) => {
   const { pid } = req.params
   productsServices.delete(pid)
-  res.send({ status: 'Product deleted' })
+  res.send({ status: 'product deleted' })
 }

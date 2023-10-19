@@ -1,4 +1,4 @@
-import Sessions from '../dao/mongo/sessions.mongo.js'
+import Sessions from '../dao/classes/sessions.dao.js'
 import { createHash, isValidatePassword } from '../utils.js'
 const sessionsServices = new Sessions()
 

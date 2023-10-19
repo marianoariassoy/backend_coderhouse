@@ -1,4 +1,4 @@
-import { productsModel } from '../dao/mongo/models/products.model.js'
+import { productsModel } from '../dao/models/products.model.js'
 
 export const login = async (req, res) => {
   res.render('login', { session: req.session.user })

@@ -13,7 +13,7 @@ import { __dirname } from './utils.js'
 // Config
 import config from './config/config.js'
 import { initializePassport } from './config/passport.config.js'
-import './dao/mongo/database.js'
+import './dao/database.js'
 const app = express()
 
 // Views

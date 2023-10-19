@@ -2,29 +2,21 @@
 GET http://localhost:8080/api/carts
 
 ### Carrito por ID
-GET http://localhost:8080/api/carts/65302c6487fba0e25f4caa05
+GET http://localhost:8080/api/carts/6531691ca9e65cb117e6bf04
 
 ### Agrega un carrito
 POST http://localhost:8080/api/carts
 
 ### Agrega un producto al carrito
-PUT http://localhost:8080/api/carts/65302e42027287a1b5ede5e2
+PUT http://localhost:8080/api/carts/6531691ca9e65cb117e6bf04
 content-type: application/json
 
 {
     "product": "64fc8ad5cf7383d11afde544"
 }
 
-### Actualizar la cantidad de un producto en el carrito
-PUT http://localhost:8080/api/carts/64fd26c7e7ae10b0235dd181/products/64fc8a53cf7383d11afde539
-content-type: application/json
-
-{
-    "quantity": 4
-}
-
 ### Elimina un producto del carrito
-DELETE http://localhost:8080/api/carts/65302e42027287a1b5ede5e2/products/64fc8ad5cf7383d11afde544
+DELETE http://localhost:8080/api/carts/6531691ca9e65cb117e6bf04/products/64fc8ad5cf7383d11afde544
 
 ### Elimina carrito
-DELETE http://localhost:8080/api/carts/65302e42027287a1b5ede5e2
+DELETE http://localhost:8080/api/carts/6531691ca9e65cb117e6bf04
