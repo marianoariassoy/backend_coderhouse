@@ -1,4 +1,4 @@
-### Listado de productos sin parametros
+### Listado de productos
 GET http://localhost:8080/api/products
 
 ### Listado de productos con parametros
@@ -7,7 +7,7 @@ GET http://localhost:8080/api/products?page=1&limit=2&category=camisas&sort=desc
 ### Producto por id
 GET http://localhost:8080/api/products/64ff9325ec9218e9252a7389
 
-### Agrega un producto
+### Nuevo producto
 POST http://localhost:8080/api/products
 content-type: application/json
 
@@ -21,7 +21,7 @@ content-type: application/json
     "stock": 2    
 }
 
-### Actualiza un producto
+### Actualiza producto
 PUT http://localhost:8080/api/products/64ff9325ec9218e9252a7389
 content-type: application/json
 
@@ -30,7 +30,7 @@ content-type: application/json
     "status": false
 }
 
-### Elimina un producto
+### Elimina producto
 DELETE http://localhost:8080/api/products/6530268a155bc3f2d6227fa8
 
 
