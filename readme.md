@@ -24,17 +24,17 @@ http://localhost:8080/login
 
 ### Login
 
-**GET** http://localhost:8080/api/sessions/login
+**GET** http://localhost:8080/api/users/login
 
 Usuario de prueba: email@email.com / 123456
 
 ### Register
 
-**GET** http://localhost:8080/api/sessions/register
+**GET** http://localhost:8080/api/users/register
 
 ### Profile
 
-**GET** http://localhost:8080/api/sessions/profile
+**GET** http://localhost:8080/api/users/profile
 
 ## Endpoints Productos
 

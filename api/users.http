@@ -1,8 +1,8 @@
-### Listado de usuarios
-GET http://localhost:8080/api/sessions
+### Usuarios
+GET http://localhost:8080/api/users
 
-### Registro de usuario
-POST http://localhost:8080/api/sessions/register
+### Nuevo Usuario
+POST http://localhost:8080/api/users/register
 content-type: application/json
 
 {
@@ -13,8 +13,11 @@ content-type: application/json
     "password": "123456"
 }
 
+### Eliminar Usuario
+DELETE http://localhost:8080/api/users/651c6b2fa27467b76b91874d
+
 ### Login
-POST http://localhost:8080/api/sessions/login
+POST http://localhost:8080/api/users/login
 content-type: application/json
 
 {
