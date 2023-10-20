@@ -11,19 +11,34 @@ export default class Users {
     }
   }
 
-  login = async email => {
+  getById = async id => {
     try {
-      const user = await usersModel.findOne({ email }, { password: 0 })
-      return user
+      const result = await usersModel.findOne({ _id: id })
+      return result
     } catch (error) {
       console.log('error: ' + error)
       return null
     }
   }
 
-  create = async (firstName, lastName, email, age, password) => {
+  getByEmail = async email => {
     try {
-      const result = await usersModel.create({ firstName, lastName, email, age, password })
+      const result = await usersModel.findOne({ email })
+      return result
+    } catch (error) {
+      console.log('error: ' + error)
+      return null
+    }
+  }
+
+  create = async user => {
+    try {
+      const email = user.email
+      const find = await usersModel.findOne({ email })
+      if (find) {
+        return null
+      }
+      const result = await usersModel.create({ ...user })
       return result
     } catch (error) {
       console.log('error: ' + error)

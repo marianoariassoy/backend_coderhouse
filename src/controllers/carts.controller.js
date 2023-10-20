@@ -7,18 +7,15 @@ export const getAllCarts = async (req, res) => {
 }
 
 export const getCartById = async (req, res) => {
-  const { cid } = req.params
-  const cart = await cartsServices.getById(cid)
-  if (cart) {
-    res.send({ status: 'success', payload: cart })
-  } else res.status(404).json({ message: 'Cart not found' })
+  const result = await cartsServices.getById(req.params.cid)
+  if (!result) return res.send({ status: 'error', error: 'cart not found' })
+  res.send({ status: 'success', payload: result })
 }
 
 export const createCart = async (req, res) => {
-  const cart = await cartsServices.create()
-  if (cart) {
-    res.send({ status: 'success', payload: cart })
-  }
+  const result = await cartsServices.create()
+  if (!result) return res.send({ status: 'error', error: 'cart not created' })
+  res.send({ status: 'cart created', payload: result })
 }
 
 export const addProduct = async (req, res) => {
@@ -37,13 +34,11 @@ export const addProduct = async (req, res) => {
       } else {
         products.push({ product, quantity: 1 })
       }
-    } else {
-      products.push({ product, quantity: 1 })
-    }
+    } else products.push({ product, quantity: 1 })
 
     await cartsServices.edit(cid, products)
     res.send({ status: 'product added', payload: cart })
-  } else res.status(404).json({ message: 'Cart not found' })
+  } else res.status(404).json({ message: 'cart not found' })
 }
 
 export const deleteProduct = async (req, res) => {
@@ -53,12 +48,9 @@ export const deleteProduct = async (req, res) => {
     const products = cart.products
     const product = products.filter(x => x.product?._id?.toString() !== pid)
     const result = await cartsServices.edit(cid, product)
-    if (result) {
-      res.send({ status: 'product deleted', payload: cart })
-    }
-  } else {
-    res.status(404).json({ message: 'cart not found' })
-  }
+    if (!result) return res.send({ status: 'error', error: 'product not found' })
+    res.send({ status: 'product deleted', payload: cart })
+  } else res.status(404).json({ message: 'cart not found' })
 }
 
 export const deleteCart = async (req, res) => {
@@ -66,10 +58,6 @@ export const deleteCart = async (req, res) => {
   const cart = await cartsServices.getById(cid)
   if (cart) {
     const result = await cartsServices.delete(cid)
-    if (result) {
-      res.send({ status: 'cart deleted', payload: cart })
-    }
-  } else {
-    res.status(404).json({ message: 'cart not found' })
-  }
+    res.send({ status: 'cart deleted', payload: result })
+  } else res.status(404).json({ message: 'cart not found' })
 }

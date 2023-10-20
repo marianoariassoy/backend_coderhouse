@@ -1,0 +1,20 @@
+### Root
+GET http://localhost:8080/api/sessions
+
+### Login
+POST http://localhost:8080/api/sessions/login
+content-type: application/json
+
+{
+    "email": "email@email.com",
+    "password": "123456" 
+}
+
+### User info
+GET http://localhost:8080/api/sessions/current
+
+### Only admin user
+GET http://localhost:8080/api/sessions/dashboard
+
+### Logout
+GET http://localhost:8080/api/sessions/logout

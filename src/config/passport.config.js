@@ -1,47 +1,63 @@
 import passport from 'passport'
-import GitHubStrategy from 'passport-github2'
-import { usersModel } from '../dao/models/users.model.js'
+import local from 'passport-local'
+import jwt from 'passport-jwt'
+import { isValidatePassword } from '../utilities/utils.js'
+import { usersServices } from '../repositories/index.js'
 
-export const initializePassport = () => {
+// Config
+const LocalStrategy = local.Strategy
+const JWTStrategy = jwt.Strategy
+const ExtractJWT = jwt.ExtractJwt
+
+const cookieExtractor = req => {
+  let token = null
+  if (req && req.cookies) {
+    token = req.cookies['jwt-cookie']
+  }
+  return token
+}
+
+const initializePassport = () => {
   passport.use(
-    'github',
-    new GitHubStrategy(
+    'jwt',
+    new JWTStrategy(
       {
-        clientID: 'Iv1.a6ceb427284c9262',
-        clientSecret: '00ac78dd69cd3ab7755e467085459abee8da94db',
-        callbackURL: 'http://localhost:8080/api/sessions/githubcallback'
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: process.env.JWT_SECRET
       },
-      async (accessToken, refreshToken, profile, done) => {
+      async (jwtPayload, done) => {
         try {
-          // console.log(profile)
-          const user = await usersModel.findOne({ email: profile._json.email })
-
-          if (!user) {
-            const newUser = {
-              first_name: profile._json.name,
-              last_name: '',
-              age: 18,
-              email: profile._json.email,
-              password: ''
-            }
-            const result = await usersModel.create(newUser)
-            done(null, result)
-          } else {
-            done(null, user)
-          }
+          return done(null, jwtPayload)
         } catch (error) {
-          return done(error)
+          return done(error, false, { message: 'Something went wrong' })
         }
       }
     )
   )
 
-  passport.serializeUser((user, done) => {
-    done(null, user._id)
-  })
+  passport.use(
+    'login',
+    new LocalStrategy(
+      {
+        usernameField: 'email'
+      },
+      async (email, password, done) => {
+        try {
+          const user = await usersServices.getByEmail(email)
+          if (!user) {
+            return done(null, false, { message: 'User not found' })
+          }
 
-  passport.deserializeUser(async (id, done) => {
-    const user = await usersModel.findById(id)
-    done(null, user)
-  })
+          if (!isValidatePassword(password, user.password)) {
+            return done(null, false, { message: 'Wrong password' })
+          }
+          return done(null, user)
+        } catch (error) {
+          return done(null, false, { message: 'Something went wrong' })
+        }
+      }
+    )
+  )
 }
+
+export default initializePassport

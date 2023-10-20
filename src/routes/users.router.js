@@ -1,15 +1,10 @@
 import { Router } from 'express'
-import { getAllUsers, register, login, deleteUser, github, githubCallback } from '../controllers/users.controller.js'
-import passport from 'passport'
+import { get, getById, create, deleteById } from '../controllers/users.controller.js'
 const router = Router()
 
-router.get('/', getAllUsers)
-router.post('/register', register)
-router.post('/login', login)
-
-router.delete('/:uid', deleteUser)
-
-router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), github)
-router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), githubCallback)
+router.get('/', get)
+router.get('/:uid', getById)
+router.post('/register', create)
+router.delete('/:uid', deleteById)
 
 export default router

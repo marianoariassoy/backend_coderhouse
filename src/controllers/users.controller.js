@@ -1,37 +1,36 @@
-import Users from '../dao/classes/users.dao.js'
-import { createHash, isValidatePassword } from '../utilities/utils.js'
-const usersServices = new Users()
+import { usersServices } from '../repositories/index.js'
+import { isValidatePassword } from '../utilities/utils.js'
 
-export const getAllUsers = async (req, res) => {
-  const users = await usersServices.get()
-  res.send({ status: 'success', payload: users })
+export const get = async (req, res) => {
+  const result = await usersServices.get()
+  res.send({ status: 'success', payload: result })
 }
 
-export const register = async (req, res) => {
-  const { firstName, lastName, email, age, password } = req.body
-
-  if (!firstName || !lastName || !email || !age || !password) {
-    return res.status(400).send('Incomplete values')
-  }
-
-  const user = await usersServices.create(firstName, lastName, email, age, createHash(password))
-  if (!user) res.status(400).send('User not created')
-  else res.send({ status: 'User created', payload: user })
+export const getById = async (req, res) => {
+  const result = await usersServices.getById(req.params.uid)
+  if (!result) return res.status(404).send('user not found')
+  res.send({ status: 'success', payload: result })
 }
 
-export const deleteUser = async (req, res) => {
-  const { uid } = req.params
-  const users = await usersServices.delete(uid)
-  res.send({ status: 'User deleted', payload: users })
+export const create = async (req, res) => {
+  const result = await usersServices.create(req.body)
+  if (!result) return res.status(400).send({ status: 'error', error: 'user already exists' })
+  else res.send({ status: 'user created', payload: result })
+}
+
+export const deleteById = async (req, res) => {
+  const result = await usersServices.delete(req.params.uid)
+  if (!result) return res.status(400).send({ status: 'error', error: 'user not deleted' })
+  res.send({ status: 'User deleted', payload: result })
 }
 
 export const login = async (req, res) => {
   const { email, password } = req.body
-  if (!email || !password) return res.status(400).render('login', { error: 'Incomplete values' })
+  if (!email || !password) return res.status(401).render('login', { error: 'Incomplete values' })
 
   const user = usersServices.get(email)
 
-  if (!user) return res.status(400).render('login', { error: 'User not found' })
+  if (!user) return res.status(404).render('login', { error: 'User not found' })
   if (!isValidatePassword(user, password)) {
     return res.status(401).render('login', { error: 'Invalid password' })
   }

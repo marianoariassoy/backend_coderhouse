@@ -1,19 +1,21 @@
 import express from 'express'
-import session from 'express-session'
 import handlebars from 'express-handlebars'
 import passport from 'passport'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 
 import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import usersRouter from './routes/users.router.js'
+import sessionsRouter from './routes/sessions.router.js'
 import viewsRouter from './routes/views.router.js'
 
-// Config
+import initializePassport from './config/passport.config.js'
 import config from './config/config.js'
 import { mongoConnect } from './config/mongo.js'
-import { initializePassport } from './config/passport.config.js'
 import { __dirname } from './utilities/utils.js'
+
+// Config
 const app = express()
 mongoConnect()
 
@@ -24,23 +26,18 @@ app.set('view engine', 'handlebars')
 
 // Middlewares
 app.use(cors())
+app.use(cookieParser())
 initializePassport()
-app.use(
-  session({
-    secret: config.sessionSecret,
-    resave: false,
-    saveUninitialized: true
-  })
-)
 app.use(passport.initialize())
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+// app.use(express.urlencoded({ extended: true }))
 
 // Routes
 app.use('/', viewsRouter)
-app.use('/api/users', usersRouter)
 app.use('/api/products', productsRouter)
+app.use('/api/users', usersRouter)
 app.use('/api/carts', cartsRouter)
+app.use('/api/sessions', sessionsRouter)
 
 // Server
 app.listen(config.port, () => console.log(`Server running on http://localhost:${config.port}`))

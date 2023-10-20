@@ -21,7 +21,7 @@ export default class Products {
     }
   }
 
-  create = async (title, description, code, price, image, category, stock) => {
+  create = async ({ title, description, code, price, image, category, stock }) => {
     try {
       const result = await productsModel.create({
         title,
@@ -51,7 +51,8 @@ export default class Products {
 
   delete = async pid => {
     try {
-      await productsModel.deleteOne({ _id: pid })
+      const result = await productsModel.deleteOne({ _id: pid })
+      return result
     } catch (error) {
       console.log('error: ' + error)
       return null

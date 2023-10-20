@@ -5,14 +5,14 @@ GET http://localhost:8080/api/products
 GET http://localhost:8080/api/products?page=1&limit=2&category=camisas&sort=desc
 
 ### Producto por id
-GET http://localhost:8080/api/products/64ff9325ec9218e9252a7389
+GET http://localhost:8080/api/products/64fc8a54cf7383d11afde53d
 
 ### Nuevo producto
 POST http://localhost:8080/api/products
 content-type: application/json
 
 {
-    "title": "Nuevo Producto",
+    "title": "Nuevo Producto 2",
     "description": "Descripcion del producto",
     "code": "P1",
     "price": 4000,
@@ -22,7 +22,7 @@ content-type: application/json
 }
 
 ### Actualiza producto
-PUT http://localhost:8080/api/products/64ff9325ec9218e9252a7389
+PUT http://localhost:8080/api/products/64fc8a53cf7383d11afde539
 content-type: application/json
 
 {
@@ -31,6 +31,6 @@ content-type: application/json
 }
 
 ### Elimina producto
-DELETE http://localhost:8080/api/products/6530268a155bc3f2d6227fa8
+DELETE http://localhost:8080/api/products/6532d52cfb2d8b73c8058bc6
 
 
