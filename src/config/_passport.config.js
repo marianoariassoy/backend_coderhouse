@@ -45,15 +45,15 @@ const initializePassport = () => {
         try {
           const user = await usersServices.getByEmail(email)
           if (!user) {
-            return done(null, false, { message: 'User not found' })
+            return done(null, false, { message: 'user not found' })
           }
 
           if (!isValidatePassword(password, user.password)) {
-            return done(null, false, { message: 'Wrong password' })
+            return done(null, false, { message: 'wrong password' })
           }
           return done(null, user)
         } catch (error) {
-          return done(null, false, { message: 'Something went wrong' })
+          return done(null, false, { message: 'something went wrong' })
         }
       }
     )

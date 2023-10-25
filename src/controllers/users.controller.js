@@ -8,7 +8,7 @@ export const get = async (req, res) => {
 
 export const getById = async (req, res) => {
   const result = await usersServices.getById(req.params.uid)
-  if (!result) return res.status(404).send('user not found')
+  if (!result) return res.status(404).send({ status: 'error', error: 'user no found' })
   res.send({ status: 'success', payload: result })
 }
 

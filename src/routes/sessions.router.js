@@ -4,10 +4,6 @@ import { login } from '../controllers/sessions.controller.js'
 
 const router = Router()
 
-router.get('/', (req, res) => {
-  res.send('Welcome to sessions')
-})
-
 router.post('/login', passportCall('login'), login)
 
 router.get('/current', passportCall('jwt'), authorization('user'), (req, res) => {

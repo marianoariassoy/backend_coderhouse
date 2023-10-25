@@ -41,12 +41,18 @@ export const create = async (req, res) => {
 }
 
 export const edit = async (req, res) => {
+  const product = await productsServices.getById(req.params.pid)
+  if (!product) return res.send({ status: 'error', error: 'product not found' })
+
   const result = await productsServices.edit(req.params.pid, req.body.stock)
-  if (!result) return res.send({ status: 'error', error: 'product not found' })
+  if (!result) return res.send({ status: 'error', error: 'product not edited' })
   res.send({ status: 'product edited', payload: result })
 }
 
 export const deleteById = async (req, res) => {
+  const product = await productsServices.getById(req.params.pid)
+  if (!product) return res.send({ status: 'error', error: 'product not found' })
+
   const result = await productsServices.delete(req.params.pid)
   res.send({ status: 'product deleted', payload: result })
 }

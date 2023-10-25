@@ -17,7 +17,12 @@ export const passportCall = strategy => {
 
 export const authorization = role => {
   return async (req, res, next) => {
-    if (req.user.role !== role) return res.status(403).send('Forbidden')
+    if (req.user.role !== role) {
+      if (role === 'admin') return res.status(403).send({ error: 'only admin can access' })
+      if (role === 'user') return res.status(403).send({ error: 'only user can access' })
+      return res.status(403).send({ error: 'forbidden' })
+    }
+
     next()
   }
 }

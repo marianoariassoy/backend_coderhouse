@@ -1,6 +1,3 @@
-### Root
-GET http://localhost:8080/api/sessions
-
 ### Login
 POST http://localhost:8080/api/sessions/login
 content-type: application/json

@@ -10,8 +10,8 @@ import usersRouter from './routes/users.router.js'
 import sessionsRouter from './routes/sessions.router.js'
 import viewsRouter from './routes/views.router.js'
 
-import initializePassport from './config/passport.config.js'
 import config from './config/config.js'
+import { initializePassport } from './controllers/sessions.controller.js'
 import { mongoConnect } from './config/mongo.js'
 import { __dirname } from './utilities/utils.js'
 
