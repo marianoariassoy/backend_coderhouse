@@ -12,4 +12,4 @@ const ticketsSchema = new mongoose.Schema(
   }
 )
 
-export const usersModel = mongoose.model('tickets', ticketsSchema)
+export const ticketsModel = mongoose.model('tickets', ticketsSchema)

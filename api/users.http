@@ -17,5 +17,5 @@ content-type: application/json
 }
 
 ### Eliminar Usuario
-DELETE http://localhost:8080/api/users/65393d2d999039872df204be
+DELETE http://localhost:8080/api/users/653983df266e6b6600c0f10c
 

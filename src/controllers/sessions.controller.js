@@ -63,9 +63,10 @@ export const initializePassport = () => {
 }
 
 export const login = async (req, res) => {
-  const { email, role } = req.user
+  const { email, firstName, lastName, role } = req.user
+  const name = `${firstName} ${lastName}`
 
-  const token = jwt.sign({ email, role }, process.env.JWT_SECRET)
+  const token = jwt.sign({ email, name, role }, process.env.JWT_SECRET)
   res.cookie('jwt-cookie', token, {
     httpOnly: true,
     maxAge: 60 * 60 * 1000

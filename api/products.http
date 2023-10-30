@@ -22,7 +22,7 @@ content-type: application/json
 }
 
 ### Actualiza producto
-PUT http://localhost:8080/api/products/65394d0c2d59b13682576855
+PUT http://localhost:8080/api/products/6539846c266e6b6600c0f114
 content-type: application/json
 
 {
@@ -31,6 +31,6 @@ content-type: application/json
 }
 
 ### Elimina producto
-DELETE http://localhost:8080/api/products/65394d0c2d59b13682576855
+DELETE http://localhost:8080/api/products/6539846c266e6b6600c0f114
 
 
