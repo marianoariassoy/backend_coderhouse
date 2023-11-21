@@ -3,7 +3,8 @@ import { usersModel } from '../models/users.model.js'
 export default class Users {
   get = async () => {
     try {
-      const result = await usersModel.find({}, { password: 0 })
+      const result = await usersModel.find({})
+      // const result = await usersModel.find({}, { password: 0 })
       return result
     } catch (error) {
       console.log('error: ' + error)
@@ -13,7 +14,7 @@ export default class Users {
 
   getById = async id => {
     try {
-      const result = await usersModel.findOne({ _id: id }, { password: 0 })
+      const result = await usersModel.findOne({ _id: id })
       return result
     } catch (error) {
       console.log('error: ' + error)
@@ -39,6 +40,20 @@ export default class Users {
         return null
       }
       const result = await usersModel.create({ ...user })
+      return result
+    } catch (error) {
+      console.log('error: ' + error)
+      return null
+    }
+  }
+
+  edit = async (id, user) => {
+    try {
+      console.log('user dao: ', user)
+
+      const password = user.password
+      console.log('uid: ', id)
+      const result = await usersModel.updateOne({ _id: id }, { password })
       return result
     } catch (error) {
       console.log('error: ' + error)
