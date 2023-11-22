@@ -9,13 +9,14 @@ POST http://localhost:8080/api/users/register
 content-type: application/json
 
 {
-    "firstName": "Irma",
-    "lastName": "Arias",
-    "email": "irma2@email.com",
-    "age": 70,
-    "password": "123456"
+    "firstName": "Juan",
+    "lastName": "Premium",
+    "email": "premium@email.com",
+    "age": 20,
+    "password": "123456",
+    "role": "premium"
 }
 
 ### Eliminar Usuario
-DELETE http://localhost:8080/api/users/653983df266e6b6600c0f10c
+DELETE http://localhost:8080/api/users/655e08f1c464cd834d7c0314
 

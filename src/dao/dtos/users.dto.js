@@ -6,6 +6,7 @@ export default class UserDTO {
     this.lastName = user.lastName
     this.email = user.email
     this.age = user.age
+    this.role = user.role
     this.password = createHash(user.password)
   }
 }

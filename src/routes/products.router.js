@@ -6,8 +6,8 @@ const router = Router()
 
 router.get('/', get)
 router.get('/:pid', getById)
-router.post('/', passportCall('jwt'), authorization('admin'), create)
-router.put('/:pid', passportCall('jwt'), authorization('admin'), edit)
-router.delete('/:pid', passportCall('jwt'), authorization('admin'), deleteById)
+router.post('/', passportCall('jwt'), authorization(), create)
+router.put('/:pid', passportCall('jwt'), authorization(), edit)
+router.delete('/:pid', passportCall('jwt'), authorization(), deleteById)
 
 export default router

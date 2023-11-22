@@ -7,7 +7,7 @@ const router = Router()
 router.get('/', get)
 router.get('/:uid', getById)
 router.post('/register', create)
-router.delete('/:uid', passportCall('jwt'), authorization('admin'), deleteById)
+router.delete('/:uid', passportCall('jwt'), authorization(), deleteById)
 
 router.post('/forgot-password', forgotpassword)
 router.get('/reset-password/:id/:token', verifyToken)

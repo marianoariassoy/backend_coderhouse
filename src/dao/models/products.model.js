@@ -10,7 +10,8 @@ const productsSchema = new mongoose.Schema(
     image: { type: String },
     category: { type: String, index: true },
     stock: { type: Number },
-    status: { type: Boolean, default: true }
+    status: { type: Boolean, default: true },
+    owner: { type: String, default: 'admin' }
   },
   {
     timestamps: true,

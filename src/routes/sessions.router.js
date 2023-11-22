@@ -6,17 +6,17 @@ const router = Router()
 
 router.post('/login', passportCall('login'), login)
 
-router.get('/current', passportCall('jwt'), authorization('user'), (req, res) => {
+router.get('/current', passportCall('jwt'), (req, res) => {
   res.send(req.user)
 })
 
-router.get('/dashboard', passportCall('jwt'), authorization('admin'), (req, res) => {
+router.get('/dashboard', passportCall('jwt'), authorization(), (req, res) => {
   res.send(req.user)
 })
 
 router.get('/logout', async (req, res) => {
   res.clearCookie('jwt-cookie')
-  res.send('Logged out')
+  res.send({ status: 'Logged out' })
 })
 
 export default router

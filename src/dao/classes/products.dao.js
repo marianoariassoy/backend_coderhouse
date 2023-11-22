@@ -13,7 +13,7 @@ export default class Products {
 
   getById = async pid => {
     try {
-      const result = await productsModel.find({ _id: pid })
+      const result = await productsModel.findOne({ _id: pid })
       return result
     } catch (error) {
       console.log('error: ' + error)
@@ -21,7 +21,7 @@ export default class Products {
     }
   }
 
-  create = async ({ title, description, code, price, image, category, stock }) => {
+  create = async ({ title, description, code, price, image, category, stock, owner }) => {
     try {
       const result = await productsModel.create({
         title,
@@ -30,7 +30,8 @@ export default class Products {
         price,
         image,
         category,
-        stock
+        stock,
+        owner
       })
       return result
     } catch (error) {

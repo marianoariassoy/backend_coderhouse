@@ -30,19 +30,20 @@ export const get = async (req, res) => {
 
 export const getById = async (req, res) => {
   const result = await productsServices.getById(req.params.pid)
-  if (!result) return res.send({ status: 'error', error: 'product not found' })
+  if (!result) return res.status(400).send({ status: 'error', error: 'product not found' })
   res.send({ status: 'success', payload: result })
 }
 
 export const create = async (req, res) => {
-  const result = await productsServices.create(req.body)
-  if (!result) return res.send({ status: 'error', error: 'product not created' })
+  const owner = req.user.role === 'premium' ? req.user.email : null
+  const result = await productsServices.create({ ...req.body, owner })
+  if (!result) return res.status(400).send({ status: 'error', error: 'product not created' })
   res.send({ status: 'product created', payload: result })
 }
 
 export const edit = async (req, res) => {
   const product = await productsServices.getById(req.params.pid)
-  if (!product) return res.send({ status: 'error', error: 'product not found' })
+  if (!product) return res.status(400).send({ status: 'error', error: 'product not found' })
 
   const result = await productsServices.edit(req.params.pid, req.body.stock)
   if (!result) return res.send({ status: 'error', error: 'product not edited' })
@@ -51,7 +52,11 @@ export const edit = async (req, res) => {
 
 export const deleteById = async (req, res) => {
   const product = await productsServices.getById(req.params.pid)
-  if (!product) return res.send({ status: 'error', error: 'product not found' })
+  if (!product) return res.status(400).send({ status: 'error', error: 'product not found' })
+
+  if (req.user.role === 'premium') {
+    if (product.owner !== req.user.email) return res.status(401).send({ status: 'error', error: 'unauthorized' })
+  }
 
   const result = await productsServices.delete(req.params.pid)
   res.send({ status: 'product deleted', payload: result })

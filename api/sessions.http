@@ -3,8 +3,8 @@ POST http://localhost:8080/api/sessions/login
 content-type: application/json
 
 {
-    "email": "irma@email.com",
-    "password": "abc123" 
+    "email": "premium@email.com",
+    "password": "123456" 
 }
 
 ### User info

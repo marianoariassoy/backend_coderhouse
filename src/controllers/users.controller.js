@@ -44,12 +44,3 @@ export const login = async (req, res) => {
   req.session.user = user
   res.redirect('http://localhost:8080/products')
 }
-
-export const github = (req, res) => {
-  res.redirect('http://localhost:8080/products')
-}
-
-export const githubCallback = (req, res) => {
-  req.session.user = req.user
-  res.redirect('/products')
-}
