@@ -2,6 +2,7 @@ import { usersServices } from '../repositories/index.js'
 import jwt from 'jsonwebtoken'
 import config from '../config/config.js'
 import { sendmagiclink } from '../utilities/sendmagiclink.js'
+import { isValidatePassword } from '../utilities/utils.js'
 
 export const forgotpassword = async (req, res) => {
   const { email } = req.body
@@ -46,10 +47,16 @@ export const verifyToken = async (req, res) => {
 export const resetpassword = async (req, res) => {
   const { id, token } = req.params
   const password = req.body.password
+  if (!password) return res.status(400).send({ status: 'error', error: 'password is required' })
+
   const user = await usersServices.getById(id)
   if (!user) return res.status(404).send({ status: 'error', error: 'user not found' })
 
   const secret = config.jwtSecret + user.password
+
+  if (isValidatePassword(password, user.password)) {
+    return res.status(400).send({ status: 'error', error: 'password cannot be the same' })
+  }
 
   try {
     const payload = jwt.verify(token, secret)
