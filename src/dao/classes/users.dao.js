@@ -48,11 +48,18 @@ export default class Users {
 
   edit = async (id, user) => {
     try {
-      console.log('user dao: ', user)
-
       const password = user.password
-      console.log('uid: ', id)
       const result = await usersModel.updateOne({ _id: id }, { password })
+      return result
+    } catch (error) {
+      console.log('error: ' + error)
+      return null
+    }
+  }
+
+  changeRole = async (id, role) => {
+    try {
+      const result = await usersModel.updateOne({ _id: id }, { role })
       return result
     } catch (error) {
       console.log('error: ' + error)

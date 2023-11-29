@@ -44,3 +44,15 @@ export const login = async (req, res) => {
   req.session.user = user
   res.redirect('http://localhost:8080/products')
 }
+
+export const premium = async (req, res) => {
+  const { uid } = req.params
+  const user = await usersServices.getById(uid)
+  if (!user) return res.status(404).send({ status: 'error', error: 'user no found' })
+
+  const role = user.role === 'admin' ? 'premium' : 'admin'
+  const result = await usersServices.changeRole(uid, role)
+  if (!result) return res.status(400).send({ status: 'error', error: 'role not updated' })
+
+  res.send({ status: 'User role modified', payload: role })
+}

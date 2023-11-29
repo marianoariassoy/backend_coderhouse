@@ -31,6 +31,11 @@ export default class UsersRepository {
     return result
   }
 
+  async changeRole(id, role) {
+    const result = await this.dao.changeRole(id, role)
+    return result
+  }
+
   async delete(id) {
     const result = await this.dao.delete(id)
     return result

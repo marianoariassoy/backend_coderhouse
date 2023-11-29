@@ -20,3 +20,5 @@ content-type: application/json
 ### Eliminar Usuario
 DELETE http://localhost:8080/api/users/655e08f1c464cd834d7c0314
 
+### Cambiar rol
+GET http://localhost:8080/api/users/premium/655e098130dad911cb376a41
