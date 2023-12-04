@@ -3,7 +3,7 @@ import local from 'passport-local'
 import passportJwt from 'passport-jwt'
 import jwt from 'jsonwebtoken'
 
-import { isValidatePassword } from '../utilities/utils.js'
+import { isValidatePassword } from '../utils.js'
 import { usersServices } from '../repositories/index.js'
 
 // Config

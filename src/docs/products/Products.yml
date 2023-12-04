@@ -1,0 +1,100 @@
+paths:
+  /api/products:
+    get:
+      tags:
+        - products
+      summary: Get all products
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '500':
+          description: internal server error
+    put:
+      tags:
+        - products
+      summary: Update product
+      parameters:
+        - title: pid
+          in: path
+          description: ID of the product
+          required: true
+          schema:
+            $type: String
+      requestBodies:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/Product'
+
+  /api/products/{pid}:
+    get:
+      tags:
+        - products
+      summary: Get product by id
+      parameters:
+        - name: pid
+          in: path
+          description: ID of the product
+          required: true
+          schema:
+            $type: String
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '500':
+          description: internal server error
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+        title:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        price:
+          type: number
+        image:
+          type: string
+        category:
+          type: string
+        stock:
+          type: number
+        status:
+          type: boolean
+        owner:
+          type: string
+      example:
+        _id: 64fc8a54cf7383d11afde53b,
+        title: Camisa Leñadora Roja y Blanca,
+        description: Descripcion del producto,
+        code: P1,
+        price: 4500,
+        image: https://images.pexels.com/photos/769733/pexels-photo-769733.jpeg?auto=compress&cs=tinysrgb&w=1600,
+        category: camisas,
+        stock: 10,
+        status: true,
+requestBodies:
+  updateProduct:
+    type: object
+    properties:
+      stock:
+        type: number
+    example:
+      stock: 10

@@ -1,0 +1,63 @@
+paths:
+  /api/carts:
+    get:
+      tags:
+        - carts
+      summary: Get all carts
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Carts'
+        '500':
+          description: internal server error
+  /api/carts/{cid}:
+    get:
+      tags:
+        - carts
+      summary: Get cart by id
+      parameters:
+        - name: cid
+          in: path
+          description: ID of the cart
+          required: true
+          schema:
+            $type: String
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carts'
+        '500':
+          description: internal server error
+
+components:
+  schemas:
+    Carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+        products:
+          type: object
+      example:
+        _id: 64fc8a54cf7383d11afde53b,
+        products:
+          [
+            {
+              _id: 64fc8a54cf7383d11afde53b,
+              title: Camisa Leñadora Roja y Blanca,
+              description: Descripcion del producto,
+              code: 123,
+              price: 1000,
+              status: true,
+              stock: 10,
+              category: 'ropa'
+            }
+          ]

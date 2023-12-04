@@ -1,5 +1,5 @@
 import { usersServices } from '../repositories/index.js'
-import { isValidatePassword } from '../utilities/utils.js'
+import { isValidatePassword } from '../utils.js'
 
 export const get = async (req, res) => {
   const result = await usersServices.get()

@@ -2,7 +2,7 @@ import { usersServices } from '../repositories/index.js'
 import jwt from 'jsonwebtoken'
 import config from '../config/config.js'
 import { sendmagiclink } from '../utilities/sendmagiclink.js'
-import { isValidatePassword } from '../utilities/utils.js'
+import { isValidatePassword } from '../utils.js'
 
 export const forgotpassword = async (req, res) => {
   const { email } = req.body
