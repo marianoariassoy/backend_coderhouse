@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 
 import { isValidatePassword } from '../utils.js'
 import { usersServices } from '../repositories/index.js'
+import config from '../config/config.js'
 
 // Config
 const LocalStrategy = local.Strategy
@@ -14,7 +15,7 @@ const ExtractJWT = passportJwt.ExtractJwt
 const cookieExtractor = req => {
   let token = null
   if (req && req.cookies) {
-    token = req.cookies['jwt-cookie']
+    token = req.cookies[config.cookieSecret]
   }
   return token
 }
@@ -25,7 +26,7 @@ export const initializePassport = () => {
     new JWTStrategy(
       {
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: process.env.JWT_SECRET
+        secretOrKey: config.jwtSecret
       },
       async (jwtPayload, done) => {
         try {
@@ -66,8 +67,8 @@ export const login = async (req, res) => {
   const { email, firstName, lastName, role } = req.user
   const name = `${firstName} ${lastName}`
 
-  const token = jwt.sign({ email, name, role }, process.env.JWT_SECRET)
-  res.cookie('jwt-cookie', token, {
+  const token = jwt.sign({ email, name, role }, config.jwtSecret)
+  res.cookie(config.cookieSecret, token, {
     httpOnly: true,
     maxAge: 60 * 60 * 1000
   })

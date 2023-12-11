@@ -5,5 +5,6 @@ export default {
   port: process.env.PORT,
   sessionSecret: process.env.SESSION_SECRET,
   jwtSecret: process.env.JWT_SECRET,
+  cookieSecret: process.env.COOKIE_SECRET,
   dbUrl: process.env.DB_URL
 }
