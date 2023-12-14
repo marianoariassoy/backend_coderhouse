@@ -2,12 +2,10 @@ import passport from 'passport'
 import local from 'passport-local'
 import passportJwt from 'passport-jwt'
 import jwt from 'jsonwebtoken'
-
-import { isValidatePassword } from '../utils.js'
 import { usersServices } from '../repositories/index.js'
 import config from '../config/config.js'
+import { isValidatePassword } from '../utils.js'
 
-// Config
 const LocalStrategy = local.Strategy
 const JWTStrategy = passportJwt.Strategy
 const ExtractJWT = passportJwt.ExtractJwt
@@ -72,5 +70,13 @@ export const login = async (req, res) => {
     httpOnly: true,
     maxAge: 60 * 60 * 1000
   })
+
+  await usersServices.updateConnection(req.user._id, new Date())
   res.send({ stutus: 'Logged in', token })
+}
+
+export const logout = async (req, res) => {
+  await usersServices.updateConnection(req.user._id, new Date())
+  res.clearCookie(config.cookieSecret)
+  res.send({ status: 'Logged out' })
 }

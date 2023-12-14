@@ -25,9 +25,14 @@ export default class UsersRepository {
     return result
   }
 
-  async edit(id, user) {
-    const userDTO = new UserDTO(user)
-    const result = await this.dao.edit(id, userDTO)
+  async edit(id, data) {
+    // const userDTO = new UserDTO(user)
+    const result = await this.dao.edit(id, data)
+    return result
+  }
+
+  async updateConnection(id, date) {
+    const result = await this.dao.updateConnection(id, date)
     return result
   }
 

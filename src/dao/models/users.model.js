@@ -7,7 +7,14 @@ const usersSchema = new mongoose.Schema(
     email: { type: String, required: true },
     age: { type: Number },
     password: { type: String },
-    role: { type: String, default: 'user' }
+    role: { type: String, default: 'user' },
+    documents: [
+      {
+        name: { type: String },
+        reference: { type: String }
+      }
+    ],
+    last_connection: { type: Date }
   },
   {
     timestamps: true,

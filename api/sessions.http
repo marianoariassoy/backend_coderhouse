@@ -3,7 +3,7 @@ POST http://localhost:8080/api/sessions/login
 content-type: application/json
 
 {
-    "email": "premium@email.com",
+    "email": "email@email.com",
     "password": "123456" 
 }
 

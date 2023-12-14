@@ -46,10 +46,9 @@ export default class Users {
     }
   }
 
-  edit = async (id, user) => {
+  edit = async (id, data) => {
     try {
-      const password = user.password
-      const result = await usersModel.updateOne({ _id: id }, { password })
+      const result = await usersModel.updateOne({ _id: id }, { ...data })
       return result
     } catch (error) {
       console.log('error: ' + error)
@@ -57,15 +56,25 @@ export default class Users {
     }
   }
 
-  changeRole = async (id, role) => {
+  updateConnection = async (id, date) => {
     try {
-      const result = await usersModel.updateOne({ _id: id }, { role })
+      const result = await usersModel.updateOne({ _id: id }, { last_connection: date })
       return result
     } catch (error) {
       console.log('error: ' + error)
       return null
     }
   }
+
+  // changeRole = async (id, role) => {
+  //   try {
+  //     const result = await usersModel.updateOne({ _id: id }, { role })
+  //     return result
+  //   } catch (error) {
+  //     console.log('error: ' + error)
+  //     return null
+  //   }
+  // }
 
   delete = async uid => {
     try {

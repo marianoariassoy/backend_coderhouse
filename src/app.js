@@ -17,6 +17,8 @@ import { __dirname } from './utils.js'
 const app = express()
 mongoConnect()
 
+// app.use(express.static(`${__dirname}/public`))
+
 // Middlewares
 app.use(cors())
 app.use(cookieParser())
