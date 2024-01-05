@@ -1,4 +1,26 @@
 import { productsServices } from '../repositories/index.js'
+import { emailDeleteProducts } from '../utilities/mailing.js'
+
+export const deleteById = async (req, res) => {
+  const product = await productsServices.getById(req.params.pid)
+  if (!product) return res.status(400).send({ status: 'error', error: 'product not found' })
+
+  if (req.user.role === 'user') {
+    return res.status(401).send({ status: 'error', error: 'unauthorized' })
+  }
+
+  if (req.user.role === 'premium') {
+    if (product.owner !== req.user.email) return res.status(401).send({ status: 'error', error: 'unauthorized' })
+  }
+
+  if (product.owner !== 'admin') {
+    const email = product.owner
+    emailDeleteProducts(email)
+  }
+
+  const result = await productsServices.delete(req.params.pid)
+  res.send({ status: 'product deleted', payload: result })
+}
 
 export const get = async (req, res) => {
   const page = parseInt(req.query.page, 10) || 1
@@ -48,16 +70,4 @@ export const edit = async (req, res) => {
   const result = await productsServices.edit(req.params.pid, req.body.stock)
   if (!result) return res.send({ status: 'error', error: 'product not edited' })
   res.send({ status: 'product edited', payload: result })
-}
-
-export const deleteById = async (req, res) => {
-  const product = await productsServices.getById(req.params.pid)
-  if (!product) return res.status(400).send({ status: 'error', error: 'product not found' })
-
-  if (req.user.role === 'premium') {
-    if (product.owner !== req.user.email) return res.status(401).send({ status: 'error', error: 'unauthorized' })
-  }
-
-  const result = await productsServices.delete(req.params.pid)
-  res.send({ status: 'product deleted', payload: result })
 }

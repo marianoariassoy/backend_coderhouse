@@ -3,7 +3,7 @@ import { usersModel } from '../models/users.model.js'
 export default class Users {
   get = async () => {
     try {
-      const result = await usersModel.find({}, { password: 0 })
+      const result = await usersModel.find()
       return result
     } catch (error) {
       console.log('error: ' + error)

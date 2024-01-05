@@ -1,15 +1,16 @@
 import { Router } from 'express'
 import { passportCall, authorization } from '../middlewares/middlewares.js'
-import { get, getById, create, deleteById, premium, uploadDocument } from '../controllers/users.controller.js'
+import usersController from '../controllers/users.controller.js'
 import { upload } from '../utils.js'
 const router = Router()
 
-router.get('/', get)
-router.get('/:uid', getById)
-router.post('/register', create)
-router.delete('/:uid', passportCall('jwt'), authorization(), deleteById)
+router.get('/', usersController.getAllUsers)
+router.delete('/', usersController.deleteInactiveUsers)
+router.get('/:uid', usersController.getUserById)
+router.post('/register', usersController.createUser)
+router.delete('/:uid', passportCall('jwt'), authorization(), usersController.deleteUserById)
 
-router.get('/premium/:uid', premium)
-router.post('/:uid/documents', passportCall('jwt'), upload.single('file'), uploadDocument)
+router.get('/premium/:uid', usersController.premium)
+router.post('/:uid/documents', passportCall('jwt'), upload.single('file'), usersController.uploadDocument)
 
 export default router

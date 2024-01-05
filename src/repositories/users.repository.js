@@ -1,10 +1,10 @@
-import UserDTO from '../dao/dtos/users.dto.js'
+import { CreateUserDTO } from '../dao/dtos/users.dto.js'
 
 export default class UsersRepository {
   constructor(dao) {
     this.dao = dao
   }
-  async get() {
+  async getAll() {
     const result = await this.dao.get()
     return result
   }
@@ -20,13 +20,12 @@ export default class UsersRepository {
   }
 
   async create(user) {
-    const userDTO = new UserDTO(user)
+    const userDTO = new CreateUserDTO(user)
     const result = await this.dao.create(userDTO)
     return result
   }
 
   async edit(id, data) {
-    // const userDTO = new UserDTO(user)
     const result = await this.dao.edit(id, data)
     return result
   }

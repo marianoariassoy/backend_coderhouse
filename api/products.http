@@ -31,6 +31,6 @@ content-type: application/json
 }
 
 ### Elimina producto
-DELETE http://localhost:8080/api/products/655e1055e13b513900be47c9
+DELETE http://localhost:8080/api/products/657728839d122dceeb0b26a3
 
 

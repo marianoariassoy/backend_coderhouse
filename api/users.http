@@ -1,5 +1,8 @@
-### Usuarios
+### Listado de usuarios
 GET http://localhost:8080/api/users
+
+### Eliminar usuarios inactivos
+DELETE http://localhost:8080/api/users
 
 ### Usuario por id
 GET http://localhost:8080/api/users/65393c1b0ea8b0ad0b7e5723
@@ -9,16 +12,16 @@ POST http://localhost:8080/api/users/register
 content-type: application/json
 
 {
-    "firstName": "Juan",
+    "firstName": "User",
     "lastName": "Premium",
     "email": "premium@email.com",
-    "age": 20,
+    "age": 80,
     "password": "123456",
     "role": "premium"
 }
 
 ### Eliminar Usuario
-DELETE http://localhost:8080/api/users/655e08f1c464cd834d7c0314
+DELETE http://localhost:8080/api/users/65980f7f1429813e7e96f7ac
 
 ### Cambiar rol
 GET http://localhost:8080/api/users/premium/655e098130dad911cb376a41
