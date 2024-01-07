@@ -7,21 +7,28 @@ DELETE http://localhost:8080/api/users
 ### Usuario por id
 GET http://localhost:8080/api/users/65393c1b0ea8b0ad0b7e5723
 
-### Agregar usuario
+### Registrar usuario
 POST http://localhost:8080/api/users/register
 content-type: application/json
 
 {
-    "firstName": "User",
-    "lastName": "Premium",
-    "email": "premium@email.com",
+    "firstName": "Irma",
+    "lastName": "Arias",
+    "email": "irma@email.com",
     "age": 80,
-    "password": "123456",
-    "role": "premium"
+    "password": "123456"
+}
+
+### Modifica un usuario
+PUT http://localhost:8080/api/users/659993e2a3d9e69a92192abb
+content-type: application/json
+
+{
+    "role": "admin"
 }
 
 ### Eliminar Usuario
-DELETE http://localhost:8080/api/users/65980f7f1429813e7e96f7ac
+DELETE http://localhost:8080/api/users/6599596690dda97b73351bef
 
 ### Cambiar rol
 GET http://localhost:8080/api/users/premium/655e098130dad911cb376a41

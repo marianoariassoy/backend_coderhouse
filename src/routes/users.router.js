@@ -6,9 +6,11 @@ const router = Router()
 
 router.get('/', usersController.getAllUsers)
 router.delete('/', usersController.deleteInactiveUsers)
+router.put('/:uid', usersController.updateUser)
+
 router.get('/:uid', usersController.getUserById)
 router.post('/register', usersController.createUser)
-router.delete('/:uid', passportCall('jwt'), authorization(), usersController.deleteUserById)
+router.delete('/:uid', passportCall('jwt-header'), authorization('admin'), usersController.deleteUserById)
 
 router.get('/premium/:uid', usersController.premium)
 router.post('/:uid/documents', passportCall('jwt'), upload.single('file'), usersController.uploadDocument)

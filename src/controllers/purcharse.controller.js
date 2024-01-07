@@ -13,7 +13,7 @@ const transport = nodemailer.createTransport({
 
 export const purcharse = async (req, res) => {
   const result = await cartsServices.getById(req.params.cid)
-  if (!result) return res.send({ status: 'error', error: 'cart not found' })
+  if (!result) return res.send({ status: 'error', error: 'Cart not found' })
   const products = result.products
 
   let html = `<h1>Purcharse</h1>
@@ -33,7 +33,7 @@ export const purcharse = async (req, res) => {
     subject: 'Purcharse',
     html
   })
-  if (!sendEmail) return res.send({ status: 'error', error: 'email not sent' })
+  if (!sendEmail) return res.send({ status: 'error', error: 'Email not sent' })
 
   res.send({ status: 'Email sent', products, name: req.user.name, email: req.user.email })
 }

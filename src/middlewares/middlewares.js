@@ -15,10 +15,10 @@ export const passportCall = strategy => {
   }
 }
 
-export const authorization = () => {
+export const authorization = role => {
   return async (req, res, next) => {
-    if (req.user.role !== 'admin' && req.user.role !== 'premium') {
-      return res.status(403).send({ error: 'only admin or premium users can access' })
+    if (req.user.role !== role) {
+      return res.status(403).send({ error: `Only ${role} users can access` })
     }
     next()
   }

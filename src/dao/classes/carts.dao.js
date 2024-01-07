@@ -21,9 +21,19 @@ export default class Carts {
     }
   }
 
-  create = async () => {
+  getByUser = async user => {
     try {
-      const result = await cartsModel.create({})
+      const result = await cartsModel.findOne({ user }).populate('products.product')
+      return result
+    } catch (error) {
+      console.log('error: ' + error)
+      return null
+    }
+  }
+
+  create = async uid => {
+    try {
+      const result = await cartsModel.create({ user: uid, products: [] })
       return result
     } catch (error) {
       console.log('error: ' + error)

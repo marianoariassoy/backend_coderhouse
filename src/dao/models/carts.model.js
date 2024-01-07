@@ -13,7 +13,8 @@ const cartsSchema = new mongoose.Schema(
         }
       ],
       default: []
-    }
+    },
+    owner: { type: String }
   },
   {
     timestamps: true,

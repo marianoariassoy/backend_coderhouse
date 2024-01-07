@@ -48,7 +48,8 @@ export default class Users {
 
   edit = async (id, data) => {
     try {
-      const result = await usersModel.updateOne({ _id: id }, { ...data })
+      const result = await usersModel.updateOne({ _id: id }, data)
+      console.log(id, data)
       return result
     } catch (error) {
       console.log('error: ' + error)

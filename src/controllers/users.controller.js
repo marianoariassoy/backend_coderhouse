@@ -35,8 +35,14 @@ const getUserById = async (req, res) => {
 
 const createUser = async (req, res) => {
   const result = await usersServices.create(req.body)
-  if (!result) return res.status(400).send({ status: 'error', error: 'user already exists' })
-  else res.send({ status: 'user created', payload: result })
+  if (!result) return res.status(402).send({ status: 'error', error: 'User already exists' })
+  else res.send({ status: 'User was created successfully', payload: result })
+}
+
+const updateUser = async (req, res) => {
+  const result = await usersServices.edit(req.params.uid, req.body)
+  if (!result) return res.status(400).send({ status: 'error', error: 'User not updated' })
+  res.send({ status: 'User updated', payload: result })
 }
 
 const deleteUserById = async (req, res) => {
@@ -104,6 +110,7 @@ export default {
   deleteInactiveUsers,
   getUserById,
   createUser,
+  updateUser,
   deleteUserById,
   login,
   premium,

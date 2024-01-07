@@ -1,21 +1,21 @@
 import Carts from '../dao/classes/carts.dao.js'
 const cartsServices = new Carts()
 
-export const get = async (req, res) => {
+export const getAllCarts = async (req, res) => {
   const result = await cartsServices.get()
-  res.send({ status: 'success', payload: result })
+  res.send({ status: 'Success', payload: result })
 }
 
-export const getById = async (req, res) => {
+export const getCartById = async (req, res) => {
   const result = await cartsServices.getById(req.params.cid)
-  if (!result) return res.send({ status: 'error', error: 'cart not found' })
-  res.send({ status: 'success', payload: result })
+  if (!result) return res.send({ status: 'error', error: 'Cart not found' })
+  res.send({ status: 'Success', payload: result })
 }
 
-export const create = async (req, res) => {
-  const result = await cartsServices.create()
-  if (!result) return res.send({ status: 'error', error: 'cart not created' })
-  res.send({ status: 'cart created', payload: result })
+export const createCart = async (req, res) => {
+  const result = await cartsServices.create(req.user.email)
+  if (!result) return res.send({ status: 'error', error: 'Cart not created' })
+  res.send({ status: 'Cart created', payload: result })
 }
 
 export const addProduct = async (req, res) => {
@@ -30,8 +30,8 @@ export const addProduct = async (req, res) => {
     } else products.push({ product: pid, quantity: 1 })
 
     await cartsServices.edit(cid, products)
-    res.send({ status: 'product added', payload: cart })
-  } else res.status(404).json({ status: 'error', message: 'cart not found' })
+    res.send({ status: 'Product added', payload: cart })
+  } else res.status(404).json({ status: 'error', message: 'Cart not found' })
 }
 
 export const deleteProduct = async (req, res) => {
@@ -55,6 +55,6 @@ export const deleteCart = async (req, res) => {
   const cart = await cartsServices.getById(cid)
   if (cart) {
     const result = await cartsServices.delete(cid)
-    res.send({ status: 'cart deleted', payload: result })
-  } else res.status(404).json({ message: 'cart not found' })
+    res.send({ status: 'Cart deleted', payload: result })
+  } else res.status(404).json({ message: 'Cart not found' })
 }

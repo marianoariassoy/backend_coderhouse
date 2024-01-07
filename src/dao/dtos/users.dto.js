@@ -7,7 +7,7 @@ export class UserDTO {
     this.email = user.email
     this.role = user.role
     this.last_connection = user.last_connection
-    // this._id = user._id
+    this._id = user._id
   }
 }
 export class CreateUserDTO {

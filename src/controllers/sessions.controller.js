@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 import { usersServices } from '../repositories/index.js'
 import config from '../config/config.js'
 import { isValidatePassword } from '../utils.js'
+import { UserDTO } from '../dao/dtos/users.dto.js'
 
 const LocalStrategy = local.Strategy
 const JWTStrategy = passportJwt.Strategy
@@ -37,24 +38,42 @@ export const initializePassport = () => {
   )
 
   passport.use(
+    'jwt-header',
+    new JWTStrategy(
+      {
+        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+        secretOrKey: config.jwtSecret
+      },
+      async (jwtPayload, done) => {
+        try {
+          return done(null, jwtPayload)
+        } catch (error) {
+          return done(error, false, { message: 'Something went wrong' })
+        }
+      }
+    )
+  )
+
+  passport.use(
     'login',
     new LocalStrategy(
       {
-        usernameField: 'email'
+        usernameField: 'email',
+        failureFlash: true
       },
       async (email, password, done) => {
         try {
           const user = await usersServices.getByEmail(email)
           if (!user) {
-            return done(null, false, { message: 'user not found' })
+            return done(null, false, { message: 'User not found' })
           }
 
           if (!isValidatePassword(password, user.password)) {
-            return done(null, false, { message: 'wrong password' })
+            return done(null, false, { message: 'Wrong password' })
           }
           return done(null, user)
         } catch (error) {
-          return done(null, false, { message: 'something went wrong' })
+          return done(null, false, { message: 'Something went wrong' })
         }
       }
     )
@@ -72,7 +91,8 @@ export const login = async (req, res) => {
   })
 
   await usersServices.updateConnection(req.user._id, new Date())
-  res.send({ stutus: 'Logged in', token })
+  console.log('User logged in with email', req.user.email)
+  res.send({ status: 'Logged in', user: new UserDTO(req.user), token })
 }
 
 export const logout = async (req, res) => {
